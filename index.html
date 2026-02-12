@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Resume of Shawn Eupher Celestial - Web Developer">
 <title>Shawn Eupher Celestial | Resume</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
+
 body{
   font-family:'Inter',sans-serif;
   line-height:1.6;
@@ -17,6 +19,7 @@ body{
   background:#0d0d0d;
   overflow-x:hidden;
 }
+
 a{text-decoration:none;color:inherit;}
 
 #bgCanvas{
@@ -26,6 +29,7 @@ a{text-decoration:none;color:inherit;}
   z-index:-1;
 }
 
+/* HEADER (HOME PAGE) */
 header{
   text-align:center;
   padding:100px 20px;
@@ -58,12 +62,14 @@ header p{
   font-weight:600;
   transition:0.3s;
   cursor:pointer;
+  border:none;
 }
 
 .btn:hover{
   background:#00c8b0;
 }
 
+/* SECTIONS */
 section{
   padding:50px 20px;
   max-width:900px;
@@ -92,6 +98,7 @@ h2{
 ul{list-style:none;}
 li{margin-bottom:10px;}
 
+/* Experience Cards */
 .card{
   margin-bottom:15px;
   padding:15px;
@@ -110,6 +117,7 @@ li{margin-bottom:10px;}
   color:#a0fffa;
 }
 
+/* Skills */
 .skills{
   display:flex;
   flex-wrap:wrap;
@@ -125,6 +133,7 @@ li{margin-bottom:10px;}
   font-weight:600;
 }
 
+/* Mobile */
 @media(max-width:600px){
   header h1{font-size:2rem;}
   header p{font-size:1rem;}
@@ -138,8 +147,16 @@ li{margin-bottom:10px;}
 <header>
   <h1>Shawn Eupher Celestial</h1>
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
-  <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
-  <button class="btn" id="showContent">Get to Know Me!</button>
+
+  <!-- Hidden Contact Button -->
+  <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">
+    Contact Me
+  </a>
+
+  <!-- Main Button -->
+  <button class="btn" id="showContent">
+    Get to Know Me!
+  </button>
 </header>
 
 <section id="about">
@@ -185,21 +202,29 @@ I enjoy creating interactive web experiences that are futuristic and performant.
 </section>
 
 <script>
-// Show sections when button clicked
+// Button functionality
 const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
+const contactBtn = document.getElementById('contactBtn');
 
 button.addEventListener('click', () => {
+
+  // Reveal sections with stagger effect
   sections.forEach((sec, index) => {
     setTimeout(() => {
       sec.classList.add('visible');
     }, index * 200);
   });
 
+  // Show Contact button
+  contactBtn.style.display = "inline-block";
+
+  // Scroll to About section
   document.getElementById('about').scrollIntoView({
     behavior: 'smooth'
   });
 
+  // Hide Get to Know Me button
   button.style.display = "none";
 });
 
