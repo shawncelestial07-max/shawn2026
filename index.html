@@ -11,46 +11,31 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
-
-/* 3D Canvas Fullscreen */
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
-
-/* HEADER */
 header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;}
 header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);background-size: 600% 600%;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: gradientShift 5s ease infinite;}
 @keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
 .btn:hover{background:#00c8b0;}
-
-/* Sections */
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
 section.visible{opacity:1;transform:translateY(0);display:block;}
 h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
 ul{list-style:none;margin-top:10px;}
 li{margin-bottom:10px;}
-
-/* Cards */
 .card{margin-bottom:15px;padding:20px;border-left:4px solid #00ffe0;background: rgba(0,255,224,0.05);border-radius:8px;backdrop-filter: blur(5px);transition:0.3s;box-shadow:0 0 10px rgba(0,255,224,0.1);}
 .card:hover{box-shadow:0 0 30px #00ffe0, 0 0 50px rgba(0,255,224,0.3);transform: translateY(-5px);}
 .card h3{margin-bottom:5px;color:#00ffe0;}
 .card span{font-size:0.9rem;color:#a0fffa;}
-
-/* Skills */
 .skills{display:flex;flex-direction:column;gap:12px;}
 .skill-container{background:rgba(0,255,224,0.1);border-radius:8px;overflow:hidden;}
 .skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:8px 0 0 8px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
-
-/* Cursor Trail */
 .trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
-
-/* Mobile */
 @media(max-width:600px){header h1{font-size:2rem;}header p{font-size:1rem;}}
 </style>
 </head>
 <body>
 
-<!-- 3D WebGL Canvas -->
 <canvas id="threeCanvas"></canvas>
 
 <header>
@@ -60,13 +45,11 @@ li{margin-bottom:10px;}
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">Contact Me</a>
 </header>
 
-<!-- ABOUT -->
 <section id="about">
 <h2>About Me</h2>
 <p>I am a passionate developer building fast, clean, responsive websites using modern technologies. I enjoy creating interactive web experiences that are futuristic and performant.</p>
 </section>
 
-<!-- EXPERIENCE -->
 <section id="experience">
 <h2>Experience</h2>
 <div class="card">
@@ -79,7 +62,6 @@ li{margin-bottom:10px;}
 </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills">
 <h2>Skills</h2>
 <div class="skills">
@@ -92,105 +74,112 @@ li{margin-bottom:10px;}
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-
 <script>
-// Show content & animate skills
+// Show sections and animate skills
 document.getElementById('showContent').addEventListener('click', () => {
-  document.querySelectorAll('section').forEach((sec, i) => {
+  document.querySelectorAll('section').forEach((sec,i) => {
     setTimeout(() => {
       sec.classList.add('visible');
       sec.querySelectorAll('.skill').forEach(s => { s.style.width = s.getAttribute('data-level'); });
-    }, i * 200);
+    }, i*200);
   });
-  document.getElementById('contactBtn').style.display = 'inline-block';
-  document.getElementById('about').scrollIntoView({behavior: 'smooth'});
+  document.getElementById('contactBtn').style.display='inline-block';
+  document.getElementById('about').scrollIntoView({behavior:'smooth'});
   document.getElementById('showContent').style.display='none';
 });
 
-// Three.js 3D Particle Network with Lines
+// Three.js particle network with moving lines
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Particles
-const particleCount = 200;
-const particleGeometry = new THREE.BufferGeometry();
-const positions = [];
-const particlesArray = [];
+const particleCount = 120;
+const particles = [];
+const geometry = new THREE.BufferGeometry();
+const positions = new Float32Array(particleCount*3);
 
 for(let i=0;i<particleCount;i++){
-  const x = (Math.random()-0.5)*100;
-  const y = (Math.random()-0.5)*100;
-  const z = (Math.random()-0.5)*100;
-  positions.push(x,y,z);
-  particlesArray.push(new THREE.Vector3(x,y,z));
+  const x=(Math.random()-0.5)*100;
+  const y=(Math.random()-0.5)*100;
+  const z=(Math.random()-0.5)*100;
+  positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
+  particles.push({pos:new THREE.Vector3(x,y,z), vel:new THREE.Vector3((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05)});
 }
-particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
 const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
-const points = new THREE.Points(particleGeometry, material);
+const points = new THREE.Points(geometry, material);
 scene.add(points);
 
 // Lines
-const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.2});
+const maxConnections = 2;
 const lineGeometry = new THREE.BufferGeometry();
-const maxConnections = 3;
-let linePositions = new Float32Array(particleCount*maxConnections*3*2);
+const linePositions = new Float32Array(particleCount*maxConnections*3*2);
 lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions,3));
-const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
-scene.add(lineSegments);
+const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.25});
+const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+scene.add(lines);
 
 camera.position.z = 50;
 
-// Mouse interaction
+// Mouse
 let mouseX=0, mouseY=0;
-document.addEventListener('mousemove', e => {
-  mouseX = (e.clientX - window.innerWidth/2)/30;
-  mouseY = (e.clientY - window.innerHeight/2)/30;
-});
+document.addEventListener('mousemove', e => {mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30;});
 
 function animate(){
   requestAnimationFrame(animate);
-  
-  points.rotation.x += 0.001 + mouseY*0.0001;
-  points.rotation.y += 0.001 + mouseX*0.0001;
-  
-  // Update lines
-  let index = 0;
-  for(let i=0;i<particlesArray.length;i++){
-    const p1 = particlesArray[i];
-    for(let j=i+1;j<particlesArray.length && j<i+1+maxConnections;j++){
-      const p2 = particlesArray[j%particlesArray.length];
-      linePositions[index++] = p1.x;
-      linePositions[index++] = p1.y;
-      linePositions[index++] = p1.z;
-      linePositions[index++] = p2.x;
-      linePositions[index++] = p2.y;
-      linePositions[index++] = p2.z;
-    }
-  }
-  lineGeometry.attributes.position.needsUpdate = true;
 
-  renderer.render(scene, camera);
+  // Move particles
+  particles.forEach((p,i)=>{
+    p.pos.add(p.vel);
+    if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
+    if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
+    if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
+    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
+  });
+  geometry.attributes.position.needsUpdate=true;
+
+  // Update lines dynamically
+  let idx=0;
+  particles.forEach((p1,i)=>{
+    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
+      const p2=particles[j%particles.length];
+      linePositions[idx++] = p1.pos.x;
+      linePositions[idx++] = p1.pos.y;
+      linePositions[idx++] = p1.pos.z;
+      linePositions[idx++] = p2.pos.x;
+      linePositions[idx++] = p2.pos.y;
+      linePositions[idx++] = p2.pos.z;
+    }
+  });
+  lineGeometry.attributes.position.needsUpdate=true;
+
+  points.rotation.x += 0.001+mouseY*0.0001;
+  points.rotation.y += 0.001+mouseX*0.0001;
+  lines.rotation.x = points.rotation.x;
+  lines.rotation.y = points.rotation.y;
+
+  renderer.render(scene,camera);
 }
 animate();
 
-// Responsive
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth/window.innerHeight;
+// Resize
+window.addEventListener('resize', ()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
-// Cursor Trail
-document.addEventListener('mousemove', e => {
-  const trail = document.createElement('div');
+// Cursor trail
+document.addEventListener('mousemove', e=>{
+  const trail=document.createElement('div');
   trail.classList.add('trail');
-  trail.style.left = e.clientX + 'px';
-  trail.style.top = e.clientY + 'px';
+  trail.style.left=e.clientX+'px';
+  trail.style.top=e.clientY+'px';
   document.body.appendChild(trail);
-  setTimeout(() => trail.remove(), 500);
+  setTimeout(()=>trail.remove(),500);
 });
 </script>
 
