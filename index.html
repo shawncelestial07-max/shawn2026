@@ -11,27 +11,32 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
-#threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 
 /* Loading Screen */
 #loadingScreen {
-  position:fixed;
-  top:0; left:0; width:100%; height:100%;
-  background:#0d0d0d;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:'Orbitron',sans-serif;
-  font-size:2rem;
-  color:#00ffe0;
-  z-index:1000;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #0d0d0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: #00ffe0;
+  z-index: 1000;
   animation: shimmer 1.5s infinite;
+  opacity: 1;
+  transition: opacity 1s ease;
 }
-@keyframes shimmer{
-  0%{opacity:0.3;}
-  50%{opacity:1;}
-  100%{opacity:0.3;}
+@keyframes shimmer {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
 }
+
+/* Particle Background */
+#threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 
 /* Header */
 header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:0.5s;}
@@ -163,9 +168,11 @@ li{margin-bottom:10px;}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-// Loading Screen
+// Loading screen fade out
 window.addEventListener('load', ()=> {
-  document.getElementById('loadingScreen').style.display='none';
+  const loadingScreen = document.getElementById('loadingScreen');
+  loadingScreen.style.opacity='0';
+  setTimeout(()=>{ loadingScreen.style.display='none'; },1000);
 });
 
 // Show content
@@ -182,7 +189,7 @@ button.addEventListener('click', ()=>{
   setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
-// Particle Background with lines
+// Particle Background with moving lines
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
