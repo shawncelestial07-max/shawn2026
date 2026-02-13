@@ -38,19 +38,17 @@ li{margin-bottom:10px;}
 
 <canvas id="threeCanvas"></canvas>
 
-<header>
+<header id="mainHeader">
   <h1>Shawn Eupher Celestial</h1>
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
   <button class="btn" id="showContent">Get to Know Me!</button>
-  <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">Contact Me</a>
 </header>
 
 <section id="about">
 <h2>About Me</h2>
 <p>A results-driven professional with over five years of experience in customer service, administrative support, and social media management. Experienced in handling voice and non-voice accounts, leading outbound campaigns, and supporting daily operations with accuracy and efficiency.
 
-Currently working as a Data Entry Specialist, ensuring precise data management and organization. Also experienced as a part-time web designer and web developer, creating functional, user-friendly websites. Brings strong communication skills, attention to detail, and a commitment to delivering high-quality results.
-.</p>
+Currently working as a Data Entry Specialist, ensuring precise data management and organization. Also experienced as a part-time web designer and web developer, creating functional, user-friendly websites. Brings strong communication skills, attention to detail, and a commitment to delivering high-quality results.</p>
 </section>
 
 <section id="experience">
@@ -110,22 +108,38 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 </ul>
 </div>
 
-</section>
+<!-- Contact Button under Experience -->
+<div id="contactContainer" style="text-align:center; margin-top:30px; display:none;">
+  <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
+</div>
 
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 // Show sections and animate skills
-document.getElementById('showContent').addEventListener('click', () => {
-  document.querySelectorAll('section').forEach((sec,i) => {
+const showBtn = document.getElementById('showContent');
+const header = document.getElementById('mainHeader');
+const sections = document.querySelectorAll('section');
+const contactContainer = document.getElementById('contactContainer');
+
+showBtn.addEventListener('click', () => {
+  // Hide header content after click
+  header.style.display = 'none';
+
+  // Reveal sections with stagger effect
+  sections.forEach((sec,i) => {
     setTimeout(() => {
       sec.classList.add('visible');
       sec.querySelectorAll('.skill').forEach(s => { s.style.width = s.getAttribute('data-level'); });
     }, i*200);
   });
-  document.getElementById('contactBtn').style.display='inline-block';
+
+  // Show Contact button under last experience
+  contactContainer.style.display = 'block';
+
+  // Scroll to About section
   document.getElementById('about').scrollIntoView({behavior:'smooth'});
-  document.getElementById('showContent').style.display='none';
 });
 
 // Three.js particle network with moving lines
@@ -225,5 +239,3 @@ document.addEventListener('mousemove', e=>{
 
 </body>
 </html>
-
-
