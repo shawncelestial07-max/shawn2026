@@ -11,7 +11,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-
 body{
   font-family:'Inter',sans-serif;
   line-height:1.6;
@@ -20,8 +19,10 @@ body{
   overflow-x:hidden;
 }
 
+/* Links */
 a{text-decoration:none;color:inherit;}
 
+/* Canvas */
 #bgCanvas{
   position:fixed;
   top:0;left:0;
@@ -29,7 +30,7 @@ a{text-decoration:none;color:inherit;}
   z-index:-1;
 }
 
-/* HEADER (HOME PAGE) */
+/* HEADER */
 header{
   text-align:center;
   padding:100px 20px;
@@ -43,7 +44,17 @@ header{
 header h1{
   font-family:'Orbitron',sans-serif;
   font-size:3rem;
-  color:#00ffe0;
+  background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
 }
 
 header p{
@@ -74,9 +85,10 @@ section{
   padding:50px 20px;
   max-width:900px;
   margin:40px auto;
-  background: rgba(10,10,10,0.85);
-  border-radius:8px;
-  box-shadow:0 0 20px rgba(0,255,224,0.2);
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(10px);
+  border-radius:12px;
+  box-shadow:0 0 30px rgba(0,255,224,0.3);
   opacity:0;
   transform:translateY(40px);
   transition: all 0.8s ease-in-out;
@@ -101,10 +113,15 @@ li{margin-bottom:10px;}
 /* Experience Cards */
 .card{
   margin-bottom:15px;
-  padding:15px;
+  padding:20px;
   border-left:4px solid #00ffe0;
-  background: rgba(0,255,224,0.1);
-  border-radius:4px;
+  background: rgba(0,255,224,0.05);
+  border-radius:8px;
+  backdrop-filter: blur(5px);
+  transition:0.3s;
+}
+.card:hover{
+  box-shadow:0 0 20px rgba(0,255,224,0.5);
 }
 
 .card h3{
@@ -120,17 +137,37 @@ li{margin-bottom:10px;}
 /* Skills */
 .skills{
   display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+  flex-direction:column;
+  gap:12px;
 }
 
+.skill-container{
+  background: rgba(0,255,224,0.1);
+  border-radius:8px;
+  overflow:hidden;
+}
 .skill{
   background:#00ffe0;
   color:#0d0d0d;
   padding:8px 12px;
-  border-radius:4px;
+  border-radius:8px 0 0 8px;
   font-size:0.9rem;
   font-weight:600;
+  width:0%;
+  transition: width 1.5s ease;
+}
+
+/* Cursor Trail */
+.trail {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #00ffe0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: lighten;
 }
 
 /* Mobile */
@@ -149,7 +186,7 @@ li{margin-bottom:10px;}
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
 
   <!-- Hidden Contact Button -->
-  <a href="mailto:shawn.celestial07@gmail.com" class="btn" id="contactBtn" style="display:none;">
+  <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">
     Contact Me
   </a>
 
@@ -193,11 +230,11 @@ I enjoy creating interactive web experiences that are futuristic and performant.
 <section id="skills">
 <h2>Skills</h2>
 <div class="skills">
-<div class="skill">HTML</div>
-<div class="skill">CSS</div>
-<div class="skill">JavaScript</div>
-<div class="skill">React</div>
-<div class="skill">Node.js</div>
+<div class="skill-container"><div class="skill" data-level="90%">HTML</div></div>
+<div class="skill-container"><div class="skill" data-level="85%">CSS</div></div>
+<div class="skill-container"><div class="skill" data-level="80%">JavaScript</div></div>
+<div class="skill-container"><div class="skill" data-level="75%">React</div></div>
+<div class="skill-container"><div class="skill" data-level="70%">Node.js</div></div>
 </div>
 </section>
 
@@ -208,23 +245,19 @@ const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
 
 button.addEventListener('click', () => {
-
-  // Reveal sections with stagger effect
+  // Reveal sections
   sections.forEach((sec, index) => {
     setTimeout(() => {
       sec.classList.add('visible');
+      // Animate skill bars
+      sec.querySelectorAll('.skill').forEach(s=>{
+        s.style.width = s.getAttribute('data-level');
+      });
     }, index * 200);
   });
 
-  // Show Contact button
   contactBtn.style.display = "inline-block";
-
-  // Scroll to About section
-  document.getElementById('about').scrollIntoView({
-    behavior: 'smooth'
-  });
-
-  // Hide Get to Know Me button
+  document.getElementById('about').scrollIntoView({behavior: 'smooth'});
   button.style.display = "none";
 });
 
@@ -246,18 +279,19 @@ class Particle {
     this.speedX = (Math.random()-0.5)*0.5;
     this.speedY = (Math.random()-0.5)*0.5;
     this.icon = techIcons[Math.floor(Math.random()*techIcons.length)];
+    this.z = Math.random()*2+0.5; // depth effect
   }
   update(){
-    this.x += this.speedX;
-    this.y += this.speedY;
+    this.x += this.speedX * this.z;
+    this.y += this.speedY * this.z;
     if(this.x>canvas.width) this.x=0;
     if(this.x<0) this.x=canvas.width;
     if(this.y>canvas.height) this.y=0;
     if(this.y<0) this.y=canvas.height;
   }
   draw(){
-    ctx.font = `${this.size}px Orbitron`;
-    ctx.fillStyle = 'rgba(0,255,224,0.8)';
+    ctx.font = `${this.size*this.z}px Orbitron`;
+    ctx.fillStyle = `rgba(0,255,224,${0.5+0.5*this.z})`;
     ctx.fillText(this.icon,this.x,this.y);
   }
 }
@@ -284,8 +318,17 @@ window.addEventListener('resize',()=>{
 
 init();
 animate();
+
+// Cursor Trail
+document.addEventListener('mousemove', e => {
+  const trail = document.createElement('div');
+  trail.classList.add('trail');
+  trail.style.left = e.clientX + 'px';
+  trail.style.top = e.clientY + 'px';
+  document.body.appendChild(trail);
+  setTimeout(() => trail.remove(), 500);
+});
 </script>
 
 </body>
 </html>
-
