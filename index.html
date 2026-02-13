@@ -12,12 +12,14 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+
 header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;}
 header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);background-size: 600% 600%;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: gradientShift 5s ease infinite;}
 @keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
 .btn:hover{background:#00c8b0;}
+
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
 section.visible{opacity:1;transform:translateY(0);display:block;}
 h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
@@ -31,6 +33,22 @@ li{margin-bottom:10px;}
 .skill-container{background:rgba(0,255,224,0.1);border-radius:8px;overflow:hidden;}
 .skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:8px 0 0 8px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
 .trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
+
+/* Contact button fade-up */
+#contactContainer {
+  text-align:center; 
+  margin-top:30px; 
+  display:none;
+  opacity:0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+#contactContainer.visible {
+  display:block;
+  opacity:1;
+  transform: translateY(0);
+}
+
 @media(max-width:600px){header h1{font-size:2rem;}header p{font-size:1rem;}}
 </style>
 </head>
@@ -40,15 +58,17 @@ li{margin-bottom:10px;}
 
 <header id="mainHeader">
   <h1>Shawn Eupher Celestial</h1>
-  <p>Web Developer | Web Designer | Data Entry Specialist</p>
+  <p id="typedIntro"></p>
   <button class="btn" id="showContent">Get to Know Me!</button>
 </header>
 
 <section id="about">
 <h2>About Me</h2>
-<p>A results-driven professional with over five years of experience in customer service, administrative support, and social media management. Experienced in handling voice and non-voice accounts, leading outbound campaigns, and supporting daily operations with accuracy and efficiency.
+<p id="aboutText">
+A results-driven professional with over five years of experience in customer service, administrative support, and social media management. Experienced in handling voice and non-voice accounts, leading outbound campaigns, and supporting daily operations with accuracy and efficiency.
 
-Currently working as a Data Entry Specialist, ensuring precise data management and organization. Also experienced as a part-time web designer and web developer, creating functional, user-friendly websites. Brings strong communication skills, attention to detail, and a commitment to delivering high-quality results.</p>
+Currently working as a Data Entry Specialist, ensuring precise data management and organization. Also experienced as a part-time web designer and web developer, creating functional, user-friendly websites. Brings strong communication skills, attention to detail, and a commitment to delivering high-quality results.
+</p>
 </section>
 
 <section id="experience">
@@ -109,7 +129,7 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 </div>
 
 <!-- Contact Button under Experience -->
-<div id="contactContainer" style="text-align:center; margin-top:30px; display:none;">
+<div id="contactContainer">
   <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
 </div>
 
@@ -117,32 +137,52 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-// Show sections and animate skills
+// ================== Typing Effect for Intro (Feature #10) ==================
+const introText = "Web Developer | Web Designer | Data Entry Specialist";
+const typedIntro = document.getElementById('typedIntro');
+let i = 0;
+function typeWriter() {
+  if (i < introText.length) {
+    typedIntro.innerHTML += introText.charAt(i);
+    i++;
+    setTimeout(typeWriter, 50);
+  }
+}
+typeWriter();
+
+// ================== Section Reveal On Scroll (Feature #5) ==================
+const revealSections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  revealSections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+    if(top < windowHeight - 100){
+      sec.classList.add('visible');
+    }
+  });
+});
+
+// ================== Show Sections & Contact Button on Button Click ==================
 const showBtn = document.getElementById('showContent');
 const header = document.getElementById('mainHeader');
-const sections = document.querySelectorAll('section');
 const contactContainer = document.getElementById('contactContainer');
 
 showBtn.addEventListener('click', () => {
-  // Hide header content after click
+  // Hide header after click
   header.style.display = 'none';
 
-  // Reveal sections with stagger effect
-  sections.forEach((sec,i) => {
-    setTimeout(() => {
-      sec.classList.add('visible');
-      sec.querySelectorAll('.skill').forEach(s => { s.style.width = s.getAttribute('data-level'); });
-    }, i*200);
-  });
+  // Reveal all sections immediately
+  revealSections.forEach(sec => sec.classList.add('visible'));
 
-  // Show Contact button under last experience
-  contactContainer.style.display = 'block';
+  // Fade-up Contact button
+  contactContainer.style.display='block';
+  setTimeout(()=> contactContainer.classList.add('visible'), 50);
 
   // Scroll to About section
   document.getElementById('about').scrollIntoView({behavior:'smooth'});
 });
 
-// Three.js particle network with moving lines
+// ================== Three.js Particle Network ==================
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
