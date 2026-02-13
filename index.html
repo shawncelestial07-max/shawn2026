@@ -25,15 +25,25 @@ section.visible{opacity:1;transform:translateY(0);display:block;}
 h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
 ul{list-style:none;margin-top:10px;}
 li{margin-bottom:10px;}
-.card{margin-bottom:15px;padding:20px;border-left:4px solid #00ffe0;background: rgba(0,255,224,0.05);border-radius:8px;backdrop-filter: blur(5px);transition:0.3s;box-shadow:0 0 10px rgba(0,255,224,0.1);}
-.card:hover{box-shadow:0 0 30px #00ffe0, 0 0 50px rgba(0,255,224,0.3);transform: translateY(-5px);}
+
+/* ================== Experience Cards with 3D Hover ================== */
+.card{
+  margin-bottom:20px;
+  padding:20px;
+  border-left:4px solid #00ffe0;
+  background: rgba(0,255,224,0.05);
+  border-radius:8px;
+  backdrop-filter: blur(5px);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
 .card h3{margin-bottom:5px;color:#00ffe0;}
 .card span{font-size:0.9rem;color:#a0fffa;}
-
-/* Skills Section */
-.skills{display:flex;flex-wrap:wrap;gap:10px;}
-.skill-container{background:rgba(0,255,224,0.1);border-radius:12px;overflow:hidden;flex:1;min-width:100px;}
-.skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:12px 0 0 12px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
+.card:hover{
+  transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
+  box-shadow:0 0 40px #00ffe0, 0 0 60px rgba(0,255,224,0.4);
+  cursor:pointer;
+}
 
 /* Contact button fade-up */
 #contactContainer {
@@ -131,17 +141,6 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 </div>
 </section>
 
-<section id="skills">
-<h2>Skills</h2>
-<div class="skills">
-  <div class="skill-container"><div class="skill" data-level="90%">HTML</div></div>
-  <div class="skill-container"><div class="skill" data-level="85%">CSS</div></div>
-  <div class="skill-container"><div class="skill" data-level="80%">JavaScript</div></div>
-  <div class="skill-container"><div class="skill" data-level="75%">React</div></div>
-  <div class="skill-container"><div class="skill" data-level="70%">Node.js</div></div>
-</div>
-</section>
-
 <!-- Contact Button under Experience -->
 <div id="contactContainer">
   <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
@@ -149,7 +148,7 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-// ================== Typing Effect for Intro (Feature #10) ==================
+// ================== Typing Effect for Intro ==================
 const introText = "Web Developer | Web Designer | Data Entry Specialist";
 const typedIntro = document.getElementById('typedIntro');
 let i = 0;
@@ -169,22 +168,10 @@ const contactContainer = document.getElementById('contactContainer');
 const sections = document.querySelectorAll('section');
 
 showBtn.addEventListener('click', () => {
-  // Hide header
   header.style.display = 'none';
-
-  // Show sections
   sections.forEach(sec => sec.classList.add('visible'));
-
-  // Animate skill bars
-  document.querySelectorAll('.skill').forEach(skill=>{
-    skill.style.width = skill.getAttribute('data-level');
-  });
-
-  // Fade-up Contact button
   contactContainer.style.display='block';
   setTimeout(()=> contactContainer.classList.add('visible'), 50);
-
-  // Scroll to About
   document.getElementById('about').scrollIntoView({behavior:'smooth'});
 });
 
@@ -230,7 +217,6 @@ document.addEventListener('mousemove', e => {mouseX=(e.clientX-window.innerWidth
 
 function animate(){
   requestAnimationFrame(animate);
-
   particles.forEach((p,i)=>{
     p.pos.add(p.vel);
     if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
