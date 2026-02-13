@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Resume of Shawn Eupher Celestial - Web Developer">
 <title>Shawn Eupher Celestial | Resume</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,19 +10,10 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:'Inter',sans-serif;
-  line-height:1.6;
-  color:#fff;
-  background:#0d0d0d;
-  overflow-x:hidden;
-}
+body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
 
-/* Links */
-a{text-decoration:none;color:inherit;}
-
-/* Canvas */
-#bgCanvas{
+/* 3D Canvas Fullscreen */
+#threeCanvas{
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
@@ -31,15 +21,7 @@ a{text-decoration:none;color:inherit;}
 }
 
 /* HEADER */
-header{
-  text-align:center;
-  padding:100px 20px;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
+header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;}
 
 header h1{
   font-family:'Orbitron',sans-serif;
@@ -50,274 +32,140 @@ header h1{
   -webkit-text-fill-color: transparent;
   animation: gradientShift 5s ease infinite;
 }
-
 @keyframes gradientShift {
-  0% {background-position:0% 50%;}
-  50% {background-position:100% 50%;}
-  100% {background-position:0% 50%;}
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
+header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
+.btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
+.btn:hover{background:#00c8b0;}
 
-header p{
-  font-size:1.2rem;
-  margin-top:15px;
-  color:#a0fffa;
-}
-
-.btn{
-  display:inline-block;
-  padding:12px 28px;
-  background:#00ffe0;
-  color:#0d0d0d;
-  border-radius:5px;
-  margin-top:20px;
-  font-weight:600;
-  transition:0.3s;
-  cursor:pointer;
-  border:none;
-}
-
-.btn:hover{
-  background:#00c8b0;
-}
-
-/* SECTIONS */
-section{
-  padding:50px 20px;
-  max-width:900px;
-  margin:40px auto;
-  background: rgba(10,10,10,0.7);
-  backdrop-filter: blur(10px);
-  border-radius:12px;
-  box-shadow:0 0 30px rgba(0,255,224,0.3);
-  opacity:0;
-  transform:translateY(40px);
-  transition: all 0.8s ease-in-out;
-  display:none;
-}
-
-section.visible{
-  opacity:1;
-  transform:translateY(0);
-  display:block;
-}
-
-h2{
-  margin-bottom:20px;
-  color:#00ffe0;
-  font-family:'Orbitron',sans-serif;
-}
-
-ul{list-style:none;}
+/* Sections */
+section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
+section.visible{opacity:1;transform:translateY(0);display:block;}
+h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
+ul{list-style:none;margin-top:10px;}
 li{margin-bottom:10px;}
 
-/* Experience Cards */
-.card{
-  margin-bottom:15px;
-  padding:20px;
-  border-left:4px solid #00ffe0;
-  background: rgba(0,255,224,0.05);
-  border-radius:8px;
-  backdrop-filter: blur(5px);
-  transition:0.3s;
-}
-.card:hover{
-  box-shadow:0 0 20px rgba(0,255,224,0.5);
-}
-
-.card h3{
-  margin-bottom:5px;
-  color:#00ffe0;
-}
-
-.card span{
-  font-size:0.9rem;
-  color:#a0fffa;
-}
+/* Cards */
+.card{margin-bottom:15px;padding:20px;border-left:4px solid #00ffe0;background: rgba(0,255,224,0.05);border-radius:8px;backdrop-filter: blur(5px);transition:0.3s;}
+.card:hover{box-shadow:0 0 20px rgba(0,255,224,0.5);}
+.card h3{margin-bottom:5px;color:#00ffe0;}
+.card span{font-size:0.9rem;color:#a0fffa;}
 
 /* Skills */
-.skills{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.skill-container{
-  background: rgba(0,255,224,0.1);
-  border-radius:8px;
-  overflow:hidden;
-}
-.skill{
-  background:#00ffe0;
-  color:#0d0d0d;
-  padding:8px 12px;
-  border-radius:8px 0 0 8px;
-  font-size:0.9rem;
-  font-weight:600;
-  width:0%;
-  transition: width 1.5s ease;
-}
+.skills{display:flex;flex-direction:column;gap:12px;}
+.skill-container{background:rgba(0,255,224,0.1);border-radius:8px;overflow:hidden;}
+.skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:8px 0 0 8px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
 
 /* Cursor Trail */
-.trail {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: #00ffe0;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.5;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: lighten;
-}
+.trail {position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
 
 /* Mobile */
-@media(max-width:600px){
-  header h1{font-size:2rem;}
-  header p{font-size:1rem;}
-}
+@media(max-width:600px){header h1{font-size:2rem;}header p{font-size:1rem;}}
 </style>
 </head>
 <body>
 
-<canvas id="bgCanvas"></canvas>
+<!-- 3D WebGL Canvas -->
+<canvas id="threeCanvas"></canvas>
 
 <header>
   <h1>Shawn Eupher Celestial</h1>
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
-
-  <!-- Hidden Contact Button -->
-  <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">
-    Contact Me
-  </a>
-
-  <!-- Main Button -->
-  <button class="btn" id="showContent">
-    Get to Know Me!
-  </button>
+  <button class="btn" id="showContent">Get to Know Me!</button>
+  <a href="mailto:shawn@example.com" class="btn" id="contactBtn" style="display:none;">Contact Me</a>
 </header>
 
+<!-- ABOUT -->
 <section id="about">
 <h2>About Me</h2>
-<p>
-I am a passionate developer building fast, clean, responsive websites using modern technologies.
-I enjoy creating interactive web experiences that are futuristic and performant.
-</p>
+<p>I am a passionate developer building fast, clean, responsive websites using modern technologies. I enjoy creating interactive web experiences that are futuristic and performant.</p>
 </section>
 
+<!-- EXPERIENCE -->
 <section id="experience">
 <h2>Experience</h2>
-
 <div class="card">
-<h3>Web Developer</h3>
-<span>Mighty Studios | 2022 - Present</span>
-<ul>
-<li>Developed responsive web applications with React and Node.js.</li>
-<li>Optimized site performance by 30% through code refactoring.</li>
-</ul>
+<h3>Web Developer</h3><span>Mighty Studios | 2022 - Present</span>
+<ul><li>Developed responsive web apps with React & Node.js.</li><li>Optimized site performance by 30%.</li></ul>
 </div>
-
 <div class="card">
-<h3>Web Designer</h3>
-<span>Getsimpli | 2020 - 2022</span>
-<ul>
-<li>Implemented interactive UI components using HTML, CSS, JS.</li>
-<li>Collaborated with designers to improve UX and accessibility.</li>
-</ul>
+<h3>Web Designer</h3><span>Getsimpli | 2020 - 2022</span>
+<ul><li>Implemented interactive UI components.</li><li>Improved UX & accessibility.</li></ul>
 </div>
-
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
 <h2>Skills</h2>
 <div class="skills">
-<div class="skill-container"><div class="skill" data-level="90%">HTML</div></div>
-<div class="skill-container"><div class="skill" data-level="85%">CSS</div></div>
-<div class="skill-container"><div class="skill" data-level="80%">JavaScript</div></div>
-<div class="skill-container"><div class="skill" data-level="75%">React</div></div>
-<div class="skill-container"><div class="skill" data-level="70%">Node.js</div></div>
+  <div class="skill-container"><div class="skill" data-level="90%">HTML</div></div>
+  <div class="skill-container"><div class="skill" data-level="85%">CSS</div></div>
+  <div class="skill-container"><div class="skill" data-level="80%">JavaScript</div></div>
+  <div class="skill-container"><div class="skill" data-level="75%">React</div></div>
+  <div class="skill-container"><div class="skill" data-level="70%">Node.js</div></div>
 </div>
 </section>
 
-<script>
-// Button functionality
-const button = document.getElementById('showContent');
-const sections = document.querySelectorAll('section');
-const contactBtn = document.getElementById('contactBtn');
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-button.addEventListener('click', () => {
-  // Reveal sections
-  sections.forEach((sec, index) => {
+<script>
+// Show content & animate skills
+document.getElementById('showContent').addEventListener('click', () => {
+  document.querySelectorAll('section').forEach((sec, i) => {
     setTimeout(() => {
       sec.classList.add('visible');
-      // Animate skill bars
-      sec.querySelectorAll('.skill').forEach(s=>{
-        s.style.width = s.getAttribute('data-level');
-      });
-    }, index * 200);
+      sec.querySelectorAll('.skill').forEach(s => { s.style.width = s.getAttribute('data-level'); });
+    }, i * 200);
   });
-
-  contactBtn.style.display = "inline-block";
+  document.getElementById('contactBtn').style.display = 'inline-block';
   document.getElementById('about').scrollIntoView({behavior: 'smooth'});
-  button.style.display = "none";
+  document.getElementById('showContent').style.display='none';
 });
 
-// Particle Background
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// Three.js 3D Particle Network
+const canvas = document.getElementById('threeCanvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-const techIcons = ['💻','⚡','🖥️','📱','🛠️'];
-const particles = [];
-const particleCount = 60;
+// Particles
+const particleCount = 500;
+const particles = new THREE.BufferGeometry();
+const positions = new Float32Array(particleCount * 3);
+for(let i=0; i<particleCount*3; i++){positions[i] = (Math.random()-0.5)*100;}
+particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
+const pointCloud = new THREE.Points(particles, material);
+scene.add(pointCloud);
 
-class Particle {
-  constructor(){
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*20+10;
-    this.speedX = (Math.random()-0.5)*0.5;
-    this.speedY = (Math.random()-0.5)*0.5;
-    this.icon = techIcons[Math.floor(Math.random()*techIcons.length)];
-    this.z = Math.random()*2+0.5; // depth effect
-  }
-  update(){
-    this.x += this.speedX * this.z;
-    this.y += this.speedY * this.z;
-    if(this.x>canvas.width) this.x=0;
-    if(this.x<0) this.x=canvas.width;
-    if(this.y>canvas.height) this.y=0;
-    if(this.y<0) this.y=canvas.height;
-  }
-  draw(){
-    ctx.font = `${this.size*this.z}px Orbitron`;
-    ctx.fillStyle = `rgba(0,255,224,${0.5+0.5*this.z})`;
-    ctx.fillText(this.icon,this.x,this.y);
-  }
-}
+camera.position.z = 50;
 
-function init(){
-  for(let i=0;i<particleCount;i++){
-    particles.push(new Particle());
-  }
-}
+// Animate with mouse
+let mouseX=0, mouseY=0;
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX - window.innerWidth/2)/30;
+  mouseY = (e.clientY - window.innerHeight/2)/30;
+});
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.update();
-    p.draw();
-  });
   requestAnimationFrame(animate);
+  pointCloud.rotation.x += 0.002 + mouseY*0.0001;
+  pointCloud.rotation.y += 0.003 + mouseX*0.0001;
+  renderer.render(scene, camera);
 }
-
-window.addEventListener('resize',()=>{
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-});
-
-init();
 animate();
+
+// Responsive
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 // Cursor Trail
 document.addEventListener('mousemove', e => {
