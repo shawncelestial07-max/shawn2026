@@ -29,10 +29,11 @@ li{margin-bottom:10px;}
 .card:hover{box-shadow:0 0 30px #00ffe0, 0 0 50px rgba(0,255,224,0.3);transform: translateY(-5px);}
 .card h3{margin-bottom:5px;color:#00ffe0;}
 .card span{font-size:0.9rem;color:#a0fffa;}
-.skills{display:flex;flex-direction:column;gap:12px;}
-.skill-container{background:rgba(0,255,224,0.1);border-radius:8px;overflow:hidden;}
-.skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:8px 0 0 8px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
-.trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
+
+/* Skills Section */
+.skills{display:flex;flex-wrap:wrap;gap:10px;}
+.skill-container{background:rgba(0,255,224,0.1);border-radius:12px;overflow:hidden;flex:1;min-width:100px;}
+.skill{background:#00ffe0;color:#0d0d0d;padding:8px 12px;border-radius:12px 0 0 12px;font-size:0.9rem;font-weight:600;width:0%;transition:1.5s ease;width:0%;}
 
 /* Contact button fade-up */
 #contactContainer {
@@ -49,6 +50,7 @@ li{margin-bottom:10px;}
   transform: translateY(0);
 }
 
+.trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
 @media(max-width:600px){header h1{font-size:2rem;}header p{font-size:1rem;}}
 </style>
 </head>
@@ -127,13 +129,23 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 <li>Ensured information was complete, error-free, and organized.</li>
 </ul>
 </div>
+</section>
+
+<section id="skills">
+<h2>Skills</h2>
+<div class="skills">
+  <div class="skill-container"><div class="skill" data-level="90%">HTML</div></div>
+  <div class="skill-container"><div class="skill" data-level="85%">CSS</div></div>
+  <div class="skill-container"><div class="skill" data-level="80%">JavaScript</div></div>
+  <div class="skill-container"><div class="skill" data-level="75%">React</div></div>
+  <div class="skill-container"><div class="skill" data-level="70%">Node.js</div></div>
+</div>
+</section>
 
 <!-- Contact Button under Experience -->
 <div id="contactContainer">
   <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
 </div>
-
-</section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
@@ -150,35 +162,29 @@ function typeWriter() {
 }
 typeWriter();
 
-// ================== Section Reveal On Scroll (Feature #5) ==================
-const revealSections = document.querySelectorAll('section');
-window.addEventListener('scroll', () => {
-  revealSections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
-    if(top < windowHeight - 100){
-      sec.classList.add('visible');
-    }
-  });
-});
-
 // ================== Show Sections & Contact Button on Button Click ==================
 const showBtn = document.getElementById('showContent');
 const header = document.getElementById('mainHeader');
 const contactContainer = document.getElementById('contactContainer');
+const sections = document.querySelectorAll('section');
 
 showBtn.addEventListener('click', () => {
-  // Hide header after click
+  // Hide header
   header.style.display = 'none';
 
-  // Reveal all sections immediately
-  revealSections.forEach(sec => sec.classList.add('visible'));
+  // Show sections
+  sections.forEach(sec => sec.classList.add('visible'));
+
+  // Animate skill bars
+  document.querySelectorAll('.skill').forEach(skill=>{
+    skill.style.width = skill.getAttribute('data-level');
+  });
 
   // Fade-up Contact button
   contactContainer.style.display='block';
   setTimeout(()=> contactContainer.classList.add('visible'), 50);
 
-  // Scroll to About section
+  // Scroll to About
   document.getElementById('about').scrollIntoView({behavior:'smooth'});
 });
 
@@ -225,7 +231,6 @@ document.addEventListener('mousemove', e => {mouseX=(e.clientX-window.innerWidth
 function animate(){
   requestAnimationFrame(animate);
 
-  // Move particles
   particles.forEach((p,i)=>{
     p.pos.add(p.vel);
     if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
@@ -235,7 +240,6 @@ function animate(){
   });
   geometry.attributes.position.needsUpdate=true;
 
-  // Update lines dynamically
   let idx=0;
   particles.forEach((p1,i)=>{
     for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
