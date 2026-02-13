@@ -11,22 +11,78 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
-#threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 
+/* ================== Loading Screen ================== */
+#loadingScreen{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  background:#0d0d0d;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
+}
+#loadingScreen h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:2.5rem;
+  background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+#loadingScreen p{
+  margin-top:10px;
+  color:#00ffe0;
+  font-weight:600;
+  font-size:1rem;
+  opacity:0;
+  animation: fadeIn 2s forwards 1s;
+}
+@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes fadeIn{to{opacity:1;}}
+
+/* ================== Header ================== */
+#threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
 header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;}
 header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);background-size: 600% 600%;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: gradientShift 5s ease infinite;}
-@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
 .btn:hover{background:#00c8b0;}
 
+/* ================== Sections ================== */
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
 section.visible{opacity:1;transform:translateY(0);display:block;}
-h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
-ul{list-style:none;margin-top:10px;}
-li{margin-bottom:10px;}
+h2{margin-bottom:20px;font-family:'Orbitron',sans-serif;color:#00ffe0;position:relative;display:inline-block;}
 
-/* ================== Experience Cards with 3D Hover ================== */
+/* ================== Holographic / Glitch Effect ================== */
+h2.glitch{
+  color:#00ffe0;
+}
+h2.glitch::before, h2.glitch::after{
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width:100%;
+  overflow:hidden;
+}
+h2.glitch::before{
+  left:2px;
+  text-shadow: -2px 0 #00fff0;
+  clip: rect(0,900px,50px,0);
+  animation: glitchTop 2s infinite linear alternate-reverse;
+}
+h2.glitch::after{
+  left:-2px;
+  text-shadow: -2px 0 #00b0c8;
+  clip: rect(50px,900px,100px,0);
+  animation: glitchBottom 3s infinite linear alternate-reverse;
+}
+@keyframes glitchTop{0%{clip: rect(0,900px,50px,0);}50%{clip: rect(5px,900px,45px,0);}100%{clip: rect(0,900px,50px,0);}}
+@keyframes glitchBottom{0%{clip: rect(50px,900px,100px,0);}50%{clip: rect(55px,900px,95px,0);}100%{clip: rect(50px,900px,100px,0);}}
+
+/* ================== Experience Cards 3D Hover ================== */
 .card{
   margin-bottom:20px;
   padding:20px;
@@ -45,8 +101,8 @@ li{margin-bottom:10px;}
   cursor:pointer;
 }
 
-/* Contact button fade-up */
-#contactContainer {
+/* ================== Contact Button Fade-up ================== */
+#contactContainer{
   text-align:center; 
   margin-top:30px; 
   display:none;
@@ -54,7 +110,7 @@ li{margin-bottom:10px;}
   transform: translateY(30px);
   transition: opacity 1s ease, transform 1s ease;
 }
-#contactContainer.visible {
+#contactContainer.visible{
   display:block;
   opacity:1;
   transform: translateY(0);
@@ -66,6 +122,12 @@ li{margin-bottom:10px;}
 </head>
 <body>
 
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <h1>Shawn Eupher Celestial</h1>
+  <p>Loading Resume...</p>
+</div>
+
 <canvas id="threeCanvas"></canvas>
 
 <header id="mainHeader">
@@ -75,7 +137,7 @@ li{margin-bottom:10px;}
 </header>
 
 <section id="about">
-<h2>About Me</h2>
+<h2 class="glitch" data-text="About Me">About Me</h2>
 <p id="aboutText">
 A results-driven professional with over five years of experience in customer service, administrative support, and social media management. Experienced in handling voice and non-voice accounts, leading outbound campaigns, and supporting daily operations with accuracy and efficiency.
 
@@ -84,7 +146,7 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 </section>
 
 <section id="experience">
-<h2>Experience</h2>
+<h2 class="glitch" data-text="Experience">Experience</h2>
 
 <div class="card">
 <h3>Customer Service Representative</h3>
@@ -141,48 +203,51 @@ Currently working as a Data Entry Specialist, ensuring precise data management a
 </div>
 </section>
 
-<!-- Contact Button under Experience -->
 <div id="contactContainer">
   <a href="mailto:shawn@example.com" class="btn">Contact Me</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-// ================== Typing Effect for Intro ==================
+// ================== Loading Screen ==================
+window.addEventListener('load', ()=>{
+  setTimeout(()=>document.getElementById('loadingScreen').style.display='none', 1500);
+});
+
+// ================== Typing Effect ==================
 const introText = "Web Developer | Web Designer | Data Entry Specialist";
 const typedIntro = document.getElementById('typedIntro');
 let i = 0;
 function typeWriter() {
-  if (i < introText.length) {
+  if(i < introText.length){
     typedIntro.innerHTML += introText.charAt(i);
     i++;
-    setTimeout(typeWriter, 50);
+    setTimeout(typeWriter,50);
   }
 }
 typeWriter();
 
-// ================== Show Sections & Contact Button on Button Click ==================
+// ================== Show Sections & Contact Button ==================
 const showBtn = document.getElementById('showContent');
 const header = document.getElementById('mainHeader');
 const contactContainer = document.getElementById('contactContainer');
 const sections = document.querySelectorAll('section');
 
-showBtn.addEventListener('click', () => {
-  header.style.display = 'none';
+showBtn.addEventListener('click', ()=>{
+  header.style.display='none';
   sections.forEach(sec => sec.classList.add('visible'));
   contactContainer.style.display='block';
-  setTimeout(()=> contactContainer.classList.add('visible'), 50);
+  setTimeout(()=>contactContainer.classList.add('visible'),50);
   document.getElementById('about').scrollIntoView({behavior:'smooth'});
 });
 
 // ================== Three.js Particle Network ==================
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
 const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-// Particles
 const particleCount = 120;
 const particles = [];
 const geometry = new THREE.BufferGeometry();
@@ -200,7 +265,6 @@ const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
-// Lines
 const maxConnections = 2;
 const lineGeometry = new THREE.BufferGeometry();
 const linePositions = new Float32Array(particleCount*maxConnections*3*2);
@@ -210,10 +274,8 @@ const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
 scene.add(lines);
 
 camera.position.z = 50;
-
-// Mouse
 let mouseX=0, mouseY=0;
-document.addEventListener('mousemove', e => {mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30;});
+document.addEventListener('mousemove', e=>{mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30;});
 
 function animate(){
   requestAnimationFrame(animate);
@@ -249,7 +311,6 @@ function animate(){
 }
 animate();
 
-// Resize
 window.addEventListener('resize', ()=>{
   camera.aspect=window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
