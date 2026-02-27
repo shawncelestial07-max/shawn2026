@@ -40,6 +40,7 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
 
 /* Header */
 header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:0.5s;}
+header.hidden{display:none;}
 header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);background-size: 600% 600%;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: gradientShift 5s ease infinite;}
 @keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
@@ -64,6 +65,10 @@ li{margin-bottom:10px;}
 .social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron', sans-serif;}
 .social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
 
+/* Contact Button Fade Up */
+#contactBtn{opacity:0; transform:translateY(20px); transition: 0.8s;}
+#contactBtn.visible{opacity:1; transform:translateY(0);}
+
 /* Cursor trail */
 .trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
 
@@ -84,6 +89,7 @@ li{margin-bottom:10px;}
   <h1>Shawn Eupher Celestial</h1>
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
   <button class="btn" id="showContent">Get to Know Me!</button>
+  <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
 
 <!-- About -->
@@ -152,8 +158,10 @@ li{margin-bottom:10px;}
 </section>
 
 <!-- Resume Section -->
-<section id="resume" style="text-align:center;">
-  <a href="resume.pdf" download class="btn">Download Resume (PDF)</a>
+<section id="resume">
+  <h2>View My Resume</h2>
+  <p>:</p>
+  <a href="resume.pdf" download class="btn" style="margin-top:20px;">Download Resume (PDF)</a>
 </section>
 
 <!-- Social Links -->
@@ -174,12 +182,18 @@ window.addEventListener('load', ()=> {
   setTimeout(()=>{ loadingScreen.style.display='none'; },1000);
 });
 
-// Scroll "Get to Know Me!" button to Resume section
+// Show content
 const button = document.getElementById('showContent');
-const resumeSection = document.getElementById('resume');
+const sections = document.querySelectorAll('section');
+const contactBtn = document.getElementById('contactBtn');
+const header = document.getElementById('mainHeader');
 
-button.addEventListener('click', () => {
-  resumeSection.scrollIntoView({ behavior: 'smooth' });
+button.addEventListener('click', ()=> {
+  header.classList.add('hidden');
+  sections.forEach((sec,i)=>{
+    setTimeout(()=>{ sec.classList.add('visible'); }, i*200);
+  });
+  setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
 // Particle Background
