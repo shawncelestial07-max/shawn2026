@@ -56,7 +56,7 @@ li{margin-bottom:10px;}
 
 /* Social Links */
 .social-links {display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
-.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron',sans-serif;}
+.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron', sans-serif;}
 .social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
 
 /* Contact Button Fade Up */
@@ -171,15 +171,14 @@ li{margin-bottom:10px;}
 </div>
 </section>
 
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
 // Loading screen fade out
-window.addEventListener('load', () => {
+window.addEventListener('load', ()=> {
   const loadingScreen = document.getElementById('loadingScreen');
-  loadingScreen.style.opacity = '0';
-  setTimeout(() => { loadingScreen.style.display = 'none'; }, 1000);
+  loadingScreen.style.opacity='0';
+  setTimeout(()=>{ loadingScreen.style.display='none'; },1000);
 });
 
 // Show content
@@ -188,134 +187,130 @@ const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
 
-button.addEventListener('click', () => {
+button.addEventListener('click', ()=> {
   header.classList.add('hidden');
-  sections.forEach((sec, i) => {
-    setTimeout(() => { sec.classList.add('visible'); }, i * 200);
+  sections.forEach((sec,i)=>{
+    setTimeout(()=>{ sec.classList.add('visible'); }, i*200);
   });
-  setTimeout(() => { contactBtn.classList.add('visible'); }, sections.length * 200);
+  setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
-// Particle Background setup (scene1)
+// Particle Background
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
 
-const particleCount = 80;
-const particles = [];
+const particleCount=80;
+const particles=[];
 const geometry = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount * 3);
+const positions = new Float32Array(particleCount*3);
 
-for (let i = 0; i < particleCount; i++) {
-  const x = (Math.random() - 0.5) * 100;
-  const y = (Math.random() - 0.5) * 100;
-  const z = (Math.random() - 0.5) * 100;
-  positions[i * 3] = x; positions[i * 3 + 1] = y; positions[i * 3 + 2] = z;
-  particles.push({ pos: new THREE.Vector3(x, y, z), vel: new THREE.Vector3((Math.random() - 0.5) * 0.05, (Math.random() - 0.5) * 0.05, (Math.random() - 0.5) * 0.05) });
+for(let i=0;i<particleCount;i++){
+  const x=(Math.random()-0.5)*100;
+  const y=(Math.random()-0.5)*100;
+  const z=(Math.random()-0.5)*100;
+  positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
+  particles.push({pos:new THREE.Vector3(x,y,z), vel:new THREE.Vector3((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05)});
 }
-geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-const material = new THREE.PointsMaterial({ color: 0x00ffe0, size: 0.5 });
+geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
-const maxConnections = 2;
+const maxConnections=2;
 const lineGeometry = new THREE.BufferGeometry();
-const linePositions = new Float32Array(particleCount * maxConnections * 3 * 2);
-lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffe0, transparent: true, opacity: 0.25 });
+const linePositions = new Float32Array(particleCount*maxConnections*3*2);
+lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions,3));
+const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.25});
 const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
 scene.add(lines);
 
-camera.position.z = 50;
+camera.position.z=50;
 
-let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', e => {
-  mouseX = (e.clientX - window.innerWidth / 2) / 30;
-  mouseY = (e.clientY - window.innerHeight / 2) / 30;
-});
+let mouseX=0, mouseY=0;
+document.addEventListener('mousemove', e=>{ mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30; });
 
-// Hologram setup (scene2)
-const holoCanvas = document.createElement('canvas');
-document.getElementById('hologram').appendChild(holoCanvas);
-const holoScene = new THREE.Scene();
-const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth / 600, 0.1, 1000);
-const holoRenderer = new THREE.WebGLRenderer({ canvas: holoCanvas, alpha: true });
-holoRenderer.setSize(window.innerWidth, 600);
-
-const light = new THREE.PointLight(0x00ffe0, 1, 100);
-light.position.set(10, 10, 10);
-holoScene.add(light);
-
-const loader = new GLTFLoader();
-let holoModel = null;
-loader.load('boy.glb', function (gltf) {
-  holoModel = gltf.scene;
-  holoModel.scale.set(1.5, 1.5, 1.5);
-  holoScene.add(holoModel);
-});
-
-holoCamera.position.z = 5;
-
-function animate() {
+function animate(){
   requestAnimationFrame(animate);
 
-  // Animate particles
-  particles.forEach((p, i) => {
+  particles.forEach((p,i)=>{
     p.pos.add(p.vel);
-    if (p.pos.x > 50 || p.pos.x < -50) p.vel.x *= -1;
-    if (p.pos.y > 50 || p.pos.y < -50) p.vel.y *= -1;
-    if (p.pos.z > 50 || p.pos.z < -50) p.vel.z *= -1;
-    positions[i * 3] = p.pos.x; positions[i * 3 + 1] = p.pos.y; positions[i * 3 + 2] = p.pos.z;
+    if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
+    if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
+    if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
+    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
   });
-  geometry.attributes.position.needsUpdate = true;
+  geometry.attributes.position.needsUpdate=true;
 
-  let idx = 0;
-  particles.forEach((p1, i) => {
-    for (let j = i + 1; j < particles.length && j < i + 1 + maxConnections; j++) {
-      const p2 = particles[j % particles.length];
+  let idx=0;
+  particles.forEach((p1,i)=>{
+    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
+      const p2=particles[j%particles.length];
       linePositions[idx++] = p1.pos.x; linePositions[idx++] = p1.pos.y; linePositions[idx++] = p1.pos.z;
       linePositions[idx++] = p2.pos.x; linePositions[idx++] = p2.pos.y; linePositions[idx++] = p2.pos.z;
     }
   });
-  lineGeometry.attributes.position.needsUpdate = true;
+  lineGeometry.attributes.position.needsUpdate=true;
 
-  points.rotation.x += 0.001 + mouseY * 0.0001;
-  points.rotation.y += 0.001 + mouseX * 0.0001;
+  points.rotation.x += 0.001+mouseY*0.0001;
+  points.rotation.y += 0.001+mouseX*0.0001;
   lines.rotation.x = points.rotation.x;
   lines.rotation.y = points.rotation.y;
 
-  // Animate holo model rotation if loaded
-  if (holoModel) {
-    holoModel.rotation.y += 0.01;
-  }
-
-  // Render both scenes
-  renderer.render(scene, camera);
-  holoRenderer.render(holoScene, holoCamera);
+  renderer.render(scene,camera);
 }
-
 animate();
 
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  holoCamera.aspect = window.innerWidth / 600;
-  holoCamera.updateProjectionMatrix();
-  holoRenderer.setSize(window.innerWidth, 600);
+  renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
 // Cursor trail
-document.addEventListener('mousemove', e => {
+document.addEventListener('mousemove', e=>{
   const trail = document.createElement('div');
   trail.classList.add('trail');
-  trail.style.left = e.clientX + 'px';
-  trail.style.top = e.clientY + 'px';
+  trail.style.left=e.clientX+'px';
+  trail.style.top=e.clientY+'px';
   document.body.appendChild(trail);
-  setTimeout(() => trail.remove(), 500);
+  setTimeout(()=>trail.remove(),500);
+});
+
+// 3D Hologram Boy
+const holoCanvas = document.createElement('canvas');
+document.getElementById('hologram').appendChild(holoCanvas);
+const holoScene = new THREE.Scene();
+const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/600, 0.1, 1000);
+const holoRenderer = new THREE.WebGLRenderer({canvas:holoCanvas, alpha:true});
+holoRenderer.setSize(window.innerWidth,600);
+
+const light = new THREE.PointLight(0x00ffe0, 1, 100);
+light.position.set(10,10,10);
+holoScene.add(light);
+
+const loader = new THREE.GLTFLoader();
+loader.load('boy.glb', function(gltf){
+  const model = gltf.scene;
+  model.scale.set(1.5,1.5,1.5);
+  holoScene.add(model);
+  animateHolo(model);
+});
+
+holoCamera.position.z = 5;
+
+function animateHolo(model){
+  requestAnimationFrame(()=>animateHolo(model));
+  model.rotation.y += 0.01;
+  holoRenderer.render(holoScene,holoCamera);
+}
+
+window.addEventListener('resize', ()=>{
+  holoCamera.aspect = window.innerWidth/600;
+  holoCamera.updateProjectionMatrix();
+  holoRenderer.setSize(window.innerWidth,600);
 });
 </script>
 
