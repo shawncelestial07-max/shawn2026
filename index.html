@@ -80,7 +80,7 @@ li{margin-bottom:10px;}
 .social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
 
 /* Contact Button Fade Up */
-#contactBtn{opacity:0; transform:translateY(20px); transition: 0.8s;}
+#contactBtn{opacity:0; transform:translateY(20px); transition:0.8s;}
 #contactBtn.visible{opacity:1; transform:translateY(0);}
 
 /* Cursor trail */
@@ -106,7 +106,7 @@ li{margin-bottom:10px;}
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
 
-<!-- Hologram Section (Holographic Character) -->
+<!-- Hologram Section -->
 <section id="hologram">
   <div id="hologramLabel">Height: 5'7" | Weight: 68kg | Skin: Light Brown</div>
 </section>
@@ -120,60 +120,12 @@ li{margin-bottom:10px;}
 <!-- Experience -->
 <section id="experience">
 <h2>Experience</h2>
-
-<div class="card">
-<h3>Customer Service Representative</h3>
-<span>Sprintuality Voice Account | 2019 - 2020</span>
-<ul>
-<li>Engaged with customers via inbound and outbound calls to provide assistance with Medicare enrollment and loan application processes.</li>
-<li>Identified opportunities to upsell or cross-sell additional products or services based on customer needs and preferences.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Insurance Customer Support Specialist</h3>
-<span>AI Media Top Seller | 2020 - 2021</span>
-<ul>
-<li>Provided support to insurance customers primarily through email, chat, and other non-voice channels.</li>
-<li>Met or exceeded established performance metrics, including response times, resolution rates, and customer satisfaction scores.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Manager of Outbound Call Center</h3>
-<span>Icare Solutions | 2021 - 2023</span>
-<ul>
-<li>Developed and implemented outbound calling strategies and campaigns to meet client objectives and revenue targets.</li>
-<li>Managed lead generation, sales, market research, and customer follow-up initiatives.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Social Media Manager</h3>
-<span>2022 - 2025</span>
-<ul>
-<li>Created, scheduled, and managed content across social media platforms to grow brand presence and engagement.</li>
-<li>Analyzed performance metrics, ran campaigns, and interacted with audiences to support business goals.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Admin Assistant</h3>
-<span>GetSimpli | 2024 - 2025</span>
-<ul>
-<li>Provided administrative support by handling office tasks, managing schedules, organizing files, and assisting with communications.</li>
-<li>Ensured efficient daily operations and supported team productivity.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Data Entry Specialist</h3>
-<span>2024 - 2025</span>
-<ul>
-<li>Accurately inputted, updated, and maintained data in digital systems or databases.</li>
-<li>Ensured information was complete, error-free, and organized.</li>
-</ul>
-</div>
+<div class="card"><h3>Customer Service Representative</h3><span>Sprintuality Voice Account | 2019 - 2020</span><ul><li>Engaged with customers via inbound and outbound calls to provide assistance with Medicare enrollment and loan application processes.</li><li>Identified opportunities to upsell or cross-sell additional products or services based on customer needs and preferences.</li></ul></div>
+<div class="card"><h3>Insurance Customer Support Specialist</h3><span>AI Media Top Seller | 2020 - 2021</span><ul><li>Provided support to insurance customers primarily through email, chat, and other non-voice channels.</li><li>Met or exceeded established performance metrics, including response times, resolution rates, and customer satisfaction scores.</li></ul></div>
+<div class="card"><h3>Manager of Outbound Call Center</h3><span>Icare Solutions | 2021 - 2023</span><ul><li>Developed and implemented outbound calling strategies and campaigns to meet client objectives and revenue targets.</li><li>Managed lead generation, sales, market research, and customer follow-up initiatives.</li></ul></div>
+<div class="card"><h3>Social Media Manager</h3><span>2022 - 2025</span><ul><li>Created, scheduled, and managed content across social media platforms to grow brand presence and engagement.</li><li>Analyzed performance metrics, ran campaigns, and interacted with audiences to support business goals.</li></ul></div>
+<div class="card"><h3>Admin Assistant</h3><span>GetSimpli | 2024 - 2025</span><ul><li>Provided administrative support by handling office tasks, managing schedules, organizing files, and assisting with communications.</li><li>Ensured efficient daily operations and supported team productivity.</li></ul></div>
+<div class="card"><h3>Data Entry Specialist</h3><span>2024 - 2025</span><ul><li>Accurately inputted, updated, and maintained data in digital systems or databases.</li><li>Ensured information was complete, error-free, and organized.</li></ul></div>
 </section>
 
 <!-- Resume Section -->
@@ -192,7 +144,6 @@ li{margin-bottom:10px;}
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 // Loading screen fade out
 window.addEventListener('load', ()=> {
@@ -206,12 +157,9 @@ const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
-
 button.addEventListener('click', ()=> {
   header.classList.add('hidden');
-  sections.forEach((sec,i)=>{
-    setTimeout(()=>{ sec.classList.add('visible'); }, i*200);
-  });
+  sections.forEach((sec,i)=>{ setTimeout(()=>{ sec.classList.add('visible'); }, i*200); });
   setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
@@ -221,73 +169,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
 const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-
-const particleCount=80;
-const particles=[];
-const geometry = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount*3);
-
-for(let i=0;i<particleCount;i++){
-  const x=(Math.random()-0.5)*100;
-  const y=(Math.random()-0.5)*100;
-  const z=(Math.random()-0.5)*100;
-  positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
-  particles.push({pos:new THREE.Vector3(x,y,z), vel:new THREE.Vector3((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05)});
-}
-geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
-const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
-const points = new THREE.Points(geometry, material);
-scene.add(points);
-
-const maxConnections=2;
-const lineGeometry = new THREE.BufferGeometry();
-const linePositions = new Float32Array(particleCount*maxConnections*3*2);
-lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions,3));
-const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.25});
-const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-scene.add(lines);
-
 camera.position.z=50;
-
-let mouseX=0, mouseY=0;
-document.addEventListener('mousemove', e=>{ mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30; });
-
-function animate(){
-  requestAnimationFrame(animate);
-
-  particles.forEach((p,i)=>{
-    p.pos.add(p.vel);
-    if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
-    if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
-    if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
-    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
-  });
-  geometry.attributes.position.needsUpdate=true;
-
-  let idx=0;
-  particles.forEach((p1,i)=>{
-    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
-      const p2=particles[j%particles.length];
-      linePositions[idx++] = p1.pos.x; linePositions[idx++] = p1.pos.y; linePositions[idx++] = p1.pos.z;
-      linePositions[idx++] = p2.pos.x; linePositions[idx++] = p2.pos.y; linePositions[idx++] = p2.pos.z;
-    }
-  });
-  lineGeometry.attributes.position.needsUpdate=true;
-
-  points.rotation.x += 0.001+mouseY*0.0001;
-  points.rotation.y += 0.001+mouseX*0.0001;
-  lines.rotation.x = points.rotation.x;
-  lines.rotation.y = points.rotation.y;
-
-  renderer.render(scene,camera);
-}
-animate();
-
-window.addEventListener('resize', ()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
-});
 
 // Cursor trail
 document.addEventListener('mousemove', e=>{
@@ -299,7 +181,7 @@ document.addEventListener('mousemove', e=>{
   setTimeout(()=>trail.remove(),500);
 });
 
-// 3D Hologram Character
+// Holographic Character
 const holoCanvas = document.createElement('canvas');
 document.getElementById('hologram').appendChild(holoCanvas);
 const holoScene = new THREE.Scene();
@@ -307,37 +189,63 @@ const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/400, 0.1, 1
 const holoRenderer = new THREE.WebGLRenderer({canvas:holoCanvas, alpha:true});
 holoRenderer.setSize(window.innerWidth,400);
 
+// Lighting
 const light = new THREE.PointLight(0x00ffe0, 1, 100);
 light.position.set(10,10,10);
 holoScene.add(light);
 
-const loader = new THREE.GLTFLoader();
-loader.load('boy.glb', function(gltf){
-  const model = gltf.scene;
-  model.scale.set(1.5,1.5,1.5);
+// Create simple boy figure (cylinders + sphere)
+const holographicMaterial = new THREE.MeshStandardMaterial({color:0x00ffe0, transparent:true, opacity:0.6, emissive:0x00ffe0, emissiveIntensity:0.5});
 
-  // Holographic glow effect
-  model.traverse((child)=>{
-    if(child.isMesh){
-      child.material.transparent = true;
-      child.material.opacity = 0.85;
-      child.material.emissive = new THREE.Color(0x00ffe0);
-      child.material.emissiveIntensity = 0.3;
-    }
-  });
+// Head
+const headGeo = new THREE.SphereGeometry(0.5,32,32);
+const head = new THREE.Mesh(headGeo, holographicMaterial);
+head.position.y = 2.25;
+holoScene.add(head);
 
-  holoScene.add(model);
-  animateHolo(model);
-});
+// Body
+const bodyGeo = new THREE.CylinderGeometry(0.4,0.5,1.5,32);
+const body = new THREE.Mesh(bodyGeo, holographicMaterial);
+body.position.y = 1;
+holoScene.add(body);
+
+// Legs
+const legGeo = new THREE.CylinderGeometry(0.15,0.15,1,32);
+const leftLeg = new THREE.Mesh(legGeo, holographicMaterial);
+leftLeg.position.set(-0.15,0.5,0);
+holoScene.add(leftLeg);
+const rightLeg = new THREE.Mesh(legGeo, holographicMaterial);
+rightLeg.position.set(0.15,0.5,0);
+holoScene.add(rightLeg);
+
+// Arms
+const armGeo = new THREE.CylinderGeometry(0.1,0.1,1,32);
+const leftArm = new THREE.Mesh(armGeo, holographicMaterial);
+leftArm.position.set(-0.55,1.5,0);
+leftArm.rotation.z = Math.PI/6;
+holoScene.add(leftArm);
+const rightArm = new THREE.Mesh(armGeo, holographicMaterial);
+rightArm.position.set(0.55,1.5,0);
+rightArm.rotation.z = -Math.PI/6;
+holoScene.add(rightArm);
 
 holoCamera.position.z = 5;
 
-function animateHolo(model){
-  requestAnimationFrame(()=>animateHolo(model));
-  model.rotation.y += 0.01;
-  model.position.y = Math.sin(Date.now()*0.002)*0.2; // floating
+// Animate hologram
+function animateHolo(){
+  requestAnimationFrame(animateHolo);
+  // rotate slightly and float
+  head.rotation.y +=0.01;
+  body.rotation.y +=0.01;
+  leftLeg.rotation.y +=0.01;
+  rightLeg.rotation.y +=0.01;
+  leftArm.rotation.y +=0.01;
+  rightArm.rotation.y +=0.01;
+
+  holoScene.position = {x:0, y: Math.sin(Date.now()*0.002)*0.1, z:0};
   holoRenderer.render(holoScene,holoCamera);
 }
+animateHolo();
 
 window.addEventListener('resize', ()=>{
   holoCamera.aspect = window.innerWidth/400;
@@ -345,6 +253,5 @@ window.addEventListener('resize', ()=>{
   holoRenderer.setSize(window.innerWidth,400);
 });
 </script>
-
 </body>
 </html>
