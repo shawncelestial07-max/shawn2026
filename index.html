@@ -14,16 +14,26 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
 
 /* Loading Screen */
 #loadingScreen {
-  position: fixed; top: 0; left: 0;
+  position: fixed;
+  top: 0; left: 0;
   width: 100%; height: 100%;
   background: #0d0d0d;
-  display: flex; justify-content: center; align-items: center;
-  font-family: 'Orbitron', sans-serif; font-size: 2rem;
-  color: #00ffe0; z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: #00ffe0;
+  z-index: 1000;
   animation: shimmer 1.5s infinite;
-  opacity: 1; transition: opacity 1s ease;
+  opacity: 1;
+  transition: opacity 1s ease;
 }
-@keyframes shimmer {0% { opacity: 0.3; }50% { opacity: 1; }100% { opacity: 0.3; }}
+@keyframes shimmer {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
 
 /* Particle Background */
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
@@ -36,10 +46,6 @@ header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gr
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
 .btn:hover{background:#00c8b0;}
-
-/* Hologram Section */
-#hologram{width:100%;height:600px;position:relative;margin-bottom:50px;overflow:hidden;}
-#hologramLabel{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#00ffe0;font-family:'Orbitron',sans-serif;font-size:1.2rem;text-shadow:0 0 10px #00ffe0;}
 
 /* Sections */
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
@@ -86,11 +92,6 @@ li{margin-bottom:10px;}
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
 
-<!-- Hologram Section -->
-<section id="hologram">
-  <div id="hologramLabel">Height: 5'7" | Weight: 68kg | Skin: Light Brown</div>
-</section>
-
 <!-- About -->
 <section id="about">
 <h2>About Me</h2>
@@ -100,12 +101,66 @@ li{margin-bottom:10px;}
 <!-- Experience -->
 <section id="experience">
 <h2>Experience</h2>
-<!-- cards omitted for brevity (same as your original code) -->
+
+<div class="card">
+<h3>Customer Service Representative</h3>
+<span>Sprintuality Voice Account | 2019 - 2020</span>
+<ul>
+<li>Engaged with customers via inbound and outbound calls to provide assistance with Medicare enrollment and loan application processes.</li>
+<li>Identified opportunities to upsell or cross-sell additional products or services based on customer needs and preferences.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Insurance Customer Support Specialist</h3>
+<span>AI Media Top Seller | 2020 - 2021</span>
+<ul>
+<li>Provided support to insurance customers primarily through email, chat, and other non-voice channels.</li>
+<li>Met or exceeded established performance metrics, including response times, resolution rates, and customer satisfaction scores.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Manager of Outbound Call Center</h3>
+<span>Icare Solutions | 2021 - 2023</span>
+<ul>
+<li>Developed and implemented outbound calling strategies and campaigns to meet client objectives and revenue targets.</li>
+<li>Managed lead generation, sales, market research, and customer follow-up initiatives.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Social Media Manager</h3>
+<span>2022 - 2025</span>
+<ul>
+<li>Created, scheduled, and managed content across social media platforms to grow brand presence and engagement.</li>
+<li>Analyzed performance metrics, ran campaigns, and interacted with audiences to support business goals.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Admin Assistant</h3>
+<span>GetSimpli | 2024 - 2025</span>
+<ul>
+<li>Provided administrative support by handling office tasks, managing schedules, organizing files, and assisting with communications.</li>
+<li>Ensured efficient daily operations and supported team productivity.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Data Entry Specialist</h3>
+<span>2024 - 2025</span>
+<ul>
+<li>Accurately inputted, updated, and maintained data in digital systems or databases.</li>
+<li>Ensured information was complete, error-free, and organized.</li>
+</ul>
+</div>
 </section>
 
 <!-- Resume Section -->
 <section id="resume">
   <h2>View My Resume</h2>
+  <p>:</p>
   <a href="resume.pdf" download class="btn" style="margin-top:20px;">Download Resume (PDF)</a>
 </section>
 
@@ -119,16 +174,15 @@ li{margin-bottom:10px;}
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
-// --- Loading Screen ---
+// Loading screen fade out
 window.addEventListener('load', ()=> {
   const loadingScreen = document.getElementById('loadingScreen');
   loadingScreen.style.opacity='0';
   setTimeout(()=>{ loadingScreen.style.display='none'; },1000);
 });
 
-// --- Show Content ---
+// Show content
 const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
@@ -142,17 +196,81 @@ button.addEventListener('click', ()=> {
   setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
-// --- Particle Background ---
+// Particle Background
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
 const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-camera.position.z = 50;
 
-// Particle system omitted for brevity (same as your original code)
+const particleCount=80;
+const particles=[];
+const geometry = new THREE.BufferGeometry();
+const positions = new Float32Array(particleCount*3);
 
-// --- Cursor Trail ---
+for(let i=0;i<particleCount;i++){
+  const x=(Math.random()-0.5)*100;
+  const y=(Math.random()-0.5)*100;
+  const z=(Math.random()-0.5)*100;
+  positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
+  particles.push({pos:new THREE.Vector3(x,y,z), vel:new THREE.Vector3((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05)});
+}
+geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
+const points = new THREE.Points(geometry, material);
+scene.add(points);
+
+const maxConnections=2;
+const lineGeometry = new THREE.BufferGeometry();
+const linePositions = new Float32Array(particleCount*maxConnections*3*2);
+lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions,3));
+const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.25});
+const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+scene.add(lines);
+
+camera.position.z=50;
+
+let mouseX=0, mouseY=0;
+document.addEventListener('mousemove', e=>{ mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30; });
+
+function animate(){
+  requestAnimationFrame(animate);
+
+  particles.forEach((p,i)=>{
+    p.pos.add(p.vel);
+    if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
+    if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
+    if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
+    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
+  });
+  geometry.attributes.position.needsUpdate=true;
+
+  let idx=0;
+  particles.forEach((p1,i)=>{
+    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
+      const p2=particles[j%particles.length];
+      linePositions[idx++] = p1.pos.x; linePositions[idx++] = p1.pos.y; linePositions[idx++] = p1.pos.z;
+      linePositions[idx++] = p2.pos.x; linePositions[idx++] = p2.pos.y; linePositions[idx++] = p2.pos.z;
+    }
+  });
+  lineGeometry.attributes.position.needsUpdate=true;
+
+  points.rotation.x += 0.001+mouseY*0.0001;
+  points.rotation.y += 0.001+mouseX*0.0001;
+  lines.rotation.x = points.rotation.x;
+  lines.rotation.y = points.rotation.y;
+
+  renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+// Cursor trail
 document.addEventListener('mousemove', e=>{
   const trail = document.createElement('div');
   trail.classList.add('trail');
@@ -160,58 +278,6 @@ document.addEventListener('mousemove', e=>{
   trail.style.top=e.clientY+'px';
   document.body.appendChild(trail);
   setTimeout(()=>trail.remove(),500);
-});
-
-// --- Hologram Section ---
-const holoCanvas = document.createElement('canvas');
-holoCanvas.style.width = '100%';
-holoCanvas.style.height = '100%';
-holoCanvas.style.display = 'block';
-document.getElementById('hologram').appendChild(holoCanvas);
-
-const holoScene = new THREE.Scene();
-const holoCamera = new THREE.PerspectiveCamera(45, holoCanvas.clientWidth/holoCanvas.clientHeight, 0.1, 1000);
-holoCamera.position.set(0,1.5,5);
-holoCamera.lookAt(0,1,0);
-
-const holoRenderer = new THREE.WebGLRenderer({canvas: holoCanvas, alpha:true, antialias:true});
-holoRenderer.setSize(holoCanvas.clientWidth, holoCanvas.clientHeight);
-
-// Lights
-holoScene.add(new THREE.AmbientLight(0xffffff, 0.8));
-const dirLight = new THREE.DirectionalLight(0x00ffe0, 0.5);
-dirLight.position.set(5,10,7);
-holoScene.add(dirLight);
-
-// Load 3D model and auto-center + auto-scale
-const loader = new THREE.GLTFLoader();
-loader.load('assets/models/boy.glb', (gltf) => {
-    const model = gltf.scene;
-
-    // Compute bounding box
-    const box = new THREE.Box3().setFromObject(model);
-    const center = box.getCenter(new THREE.Vector3());
-    model.position.sub(center); // center model
-
-    const size = box.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 2 / maxDim; // adjust scale factor if needed
-    model.scale.setScalar(scale);
-
-    holoScene.add(model);
-
-    function animateHolo(){
-        requestAnimationFrame(animateHolo);
-        model.rotation.y += 0.01;
-        holoRenderer.render(holoScene, holoCamera);
-    }
-    animateHolo();
-}, undefined, (err)=>{ console.error('GLB load error:', err); });
-
-window.addEventListener('resize', ()=>{
-    holoCamera.aspect = holoCanvas.clientWidth / holoCanvas.clientHeight;
-    holoCamera.updateProjectionMatrix();
-    holoRenderer.setSize(holoCanvas.clientWidth, holoCanvas.clientHeight);
 });
 </script>
 
