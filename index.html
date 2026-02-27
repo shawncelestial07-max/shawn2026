@@ -74,53 +74,6 @@ li{margin-bottom:10px;}
 
 /* Mobile */
 @media(max-width:600px){header h1{font-size:2rem;} header p{font-size:1rem;}}
-
-/* Holographic Person */
-.hologram-person {
-  display: flex;
-  justify-content: center;
-  margin: 50px 0;
-  position: relative;
-  animation: float 2s infinite alternate;
-}
-
-.holo-svg circle, .holo-svg rect {
-  fill: none;
-  stroke: #00ffe0;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0.6;
-  filter: drop-shadow(0 0 8px #00ffe0) drop-shadow(0 0 15px #00ffe0);
-}
-
-/* Floating animation */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-10px); }
-}
-
-/* Scanline effect */
-.hologram-person::after {
-  content: "";
-  position: absolute;
-  width: 100%; height: 100%;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,255,224,0.05),
-    rgba(0,255,224,0.05) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  pointer-events: none;
-  mix-blend-mode: lighten;
-  animation: scan 1s linear infinite;
-}
-
-@keyframes scan {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
 </style>
 </head>
 <body>
@@ -138,14 +91,6 @@ li{margin-bottom:10px;}
   <button class="btn" id="showContent">Get to Know Me!</button>
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
-
-<!-- Holographic Person -->
-<div class="hologram-person">
-  <svg viewBox="0 0 64 64" class="holo-svg" width="80" height="120">
-    <circle cx="32" cy="16" r="12" /> <!-- Head -->
-    <rect x="24" y="28" width="16" height="32" rx="4" /> <!-- Body -->
-  </svg>
-</div>
 
 <!-- About -->
 <section id="about">
