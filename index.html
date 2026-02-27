@@ -38,7 +38,7 @@ header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn:hover{background:#00c8b0;}
 
 /* Hologram Section */
-#hologram{width:100%;height:600px;position:relative;margin-bottom:50px;}
+#hologram{width:100%;height:600px;position:relative;margin-bottom:50px;overflow:hidden;}
 #hologramLabel{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#00ffe0;font-family:'Orbitron',sans-serif;font-size:1.2rem;text-shadow:0 0 10px #00ffe0;}
 
 /* Sections */
@@ -279,27 +279,49 @@ document.addEventListener('mousemove', e=>{
   setTimeout(()=>trail.remove(),500);
 });
 
-// 3D Hologram Boy
+// --- Hologram Section ---
 const holoCanvas = document.createElement('canvas');
+holoCanvas.style.width = '100%';
+holoCanvas.style.height = '100%';
+holoCanvas.style.display = 'block';
 document.getElementById('hologram').appendChild(holoCanvas);
+
 const holoScene = new THREE.Scene();
-const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/600, 0.1, 1000);
-const holoRenderer = new THREE.WebGLRenderer({canvas:holoCanvas, alpha:true});
-holoRenderer.setSize(window.innerWidth,600);
 
-const light = new THREE.PointLight(0x00ffe0, 1, 100);
-light.position.set(10,10,10);
-holoScene.add(light);
+const holoCamera = new THREE.PerspectiveCamera(
+  45,
+  holoCanvas.clientWidth / holoCanvas.clientHeight,
+  0.1,
+  1000
+);
+holoCamera.position.set(0, 1.5, 5);
+holoCamera.lookAt(0, 1, 0);
 
+const holoRenderer = new THREE.WebGLRenderer({canvas: holoCanvas, alpha:true, antialias:true});
+holoRenderer.setSize(holoCanvas.clientWidth, holoCanvas.clientHeight);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+holoScene.add(ambientLight);
+const directionalLight = new THREE.DirectionalLight(0x00ffe0, 0.5);
+directionalLight.position.set(5,10,7);
+holoScene.add(directionalLight);
+
+// Load 3D model
 const loader = new THREE.GLTFLoader();
-loader.load('assets/models/boy.glb', function(gltf){
-  const model = gltf.scene;
-  model.scale.set(1.5,1.5,1.5);
-  holoScene.add(model);
-  animateHolo(model);
-});
-
-holoCamera.position.z = 5;
+loader.load(
+  'assets/models/boy.glb',
+  function(gltf){
+    const model = gltf.scene;
+    model.scale.set(1.5,1.5,1.5);
+    holoScene.add(model);
+    animateHolo(model);
+  },
+  undefined,
+  function(error){
+    console.error('Error loading 3D model:', error);
+  }
+);
 
 function animateHolo(model){
   requestAnimationFrame(()=>animateHolo(model));
@@ -308,11 +330,10 @@ function animateHolo(model){
 }
 
 window.addEventListener('resize', ()=>{
-  holoCamera.aspect = window.innerWidth/600;
+  holoCamera.aspect = holoCanvas.clientWidth / holoCanvas.clientHeight;
   holoCamera.updateProjectionMatrix();
-  holoRenderer.setSize(window.innerWidth,600);
+  holoRenderer.setSize(holoCanvas.clientWidth, holoCanvas.clientHeight);
 });
 </script>
-
 </body>
 </html>
