@@ -14,26 +14,16 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
 
 /* Loading Screen */
 #loadingScreen {
-  position: fixed;
-  top: 0; left: 0;
+  position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
   background: #0d0d0d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2rem;
-  color: #00ffe0;
-  z-index: 1000;
+  display: flex; justify-content: center; align-items: center;
+  font-family: 'Orbitron', sans-serif; font-size: 2rem;
+  color: #00ffe0; z-index: 1000;
   animation: shimmer 1.5s infinite;
-  opacity: 1;
-  transition: opacity 1s ease;
+  opacity: 1; transition: opacity 1s ease;
 }
-@keyframes shimmer {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
+@keyframes shimmer {0% { opacity: 0.3; }50% { opacity: 1; }100% { opacity: 0.3; }}
 
 /* Particle Background */
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
@@ -46,6 +36,10 @@ header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gr
 header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
 .btn:hover{background:#00c8b0;}
+
+/* Hologram Section */
+#hologram{width:100%;height:600px;position:relative;margin-bottom:50px;}
+#hologramLabel{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#00ffe0;font-family:'Orbitron',sans-serif;font-size:1.2rem;text-shadow:0 0 10px #00ffe0;}
 
 /* Sections */
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
@@ -91,6 +85,11 @@ li{margin-bottom:10px;}
   <button class="btn" id="showContent">Get to Know Me!</button>
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
+
+<!-- Hologram Section -->
+<section id="hologram">
+  <div id="hologramLabel">Height: 5'7" | Weight: 68kg | Skin: Light Brown</div>
+</section>
 
 <!-- About -->
 <section id="about">
@@ -160,7 +159,6 @@ li{margin-bottom:10px;}
 <!-- Resume Section -->
 <section id="resume">
   <h2>View My Resume</h2>
-  <p>:</p>
   <a href="resume.pdf" download class="btn" style="margin-top:20px;">Download Resume (PDF)</a>
 </section>
 
@@ -174,6 +172,7 @@ li{margin-bottom:10px;}
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 // Loading screen fade out
 window.addEventListener('load', ()=> {
@@ -278,6 +277,40 @@ document.addEventListener('mousemove', e=>{
   trail.style.top=e.clientY+'px';
   document.body.appendChild(trail);
   setTimeout(()=>trail.remove(),500);
+});
+
+// 3D Hologram Boy
+const holoCanvas = document.createElement('canvas');
+document.getElementById('hologram').appendChild(holoCanvas);
+const holoScene = new THREE.Scene();
+const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/600, 0.1, 1000);
+const holoRenderer = new THREE.WebGLRenderer({canvas:holoCanvas, alpha:true});
+holoRenderer.setSize(window.innerWidth,600);
+
+const light = new THREE.PointLight(0x00ffe0, 1, 100);
+light.position.set(10,10,10);
+holoScene.add(light);
+
+const loader = new THREE.GLTFLoader();
+loader.load('assets/models/boy.glb', function(gltf){
+  const model = gltf.scene;
+  model.scale.set(1.5,1.5,1.5);
+  holoScene.add(model);
+  animateHolo(model);
+});
+
+holoCamera.position.z = 5;
+
+function animateHolo(model){
+  requestAnimationFrame(()=>animateHolo(model));
+  model.rotation.y += 0.01;
+  holoRenderer.render(holoScene,holoCamera);
+}
+
+window.addEventListener('resize', ()=>{
+  holoCamera.aspect = window.innerWidth/600;
+  holoCamera.updateProjectionMatrix();
+  holoRenderer.setSize(window.innerWidth,600);
 });
 </script>
 
