@@ -56,7 +56,7 @@ li{margin-bottom:10px;}
 
 /* Social Links */
 .social-links {display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
-.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron', sans-serif;}
+.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron',sans-serif;}
 .social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
 
 /* Contact Button Fade Up */
@@ -196,7 +196,7 @@ button.addEventListener('click', () => {
   setTimeout(() => { contactBtn.classList.add('visible'); }, sections.length * 200);
 });
 
-// Particle Background
+// Particle Background setup (scene1)
 const canvas = document.getElementById('threeCanvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -231,11 +231,37 @@ scene.add(lines);
 camera.position.z = 50;
 
 let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', e => { mouseX = (e.clientX - window.innerWidth / 2) / 30; mouseY = (e.clientY - window.innerHeight / 2) / 30; });
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX - window.innerWidth / 2) / 30;
+  mouseY = (e.clientY - window.innerHeight / 2) / 30;
+});
+
+// Hologram setup (scene2)
+const holoCanvas = document.createElement('canvas');
+document.getElementById('hologram').appendChild(holoCanvas);
+const holoScene = new THREE.Scene();
+const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth / 600, 0.1, 1000);
+const holoRenderer = new THREE.WebGLRenderer({ canvas: holoCanvas, alpha: true });
+holoRenderer.setSize(window.innerWidth, 600);
+
+const light = new THREE.PointLight(0x00ffe0, 1, 100);
+light.position.set(10, 10, 10);
+holoScene.add(light);
+
+const loader = new GLTFLoader();
+let holoModel = null;
+loader.load('boy.glb', function (gltf) {
+  holoModel = gltf.scene;
+  holoModel.scale.set(1.5, 1.5, 1.5);
+  holoScene.add(holoModel);
+});
+
+holoCamera.position.z = 5;
 
 function animate() {
   requestAnimationFrame(animate);
 
+  // Animate particles
   particles.forEach((p, i) => {
     p.pos.add(p.vel);
     if (p.pos.x > 50 || p.pos.x < -50) p.vel.x *= -1;
@@ -260,14 +286,26 @@ function animate() {
   lines.rotation.x = points.rotation.x;
   lines.rotation.y = points.rotation.y;
 
+  // Animate holo model rotation if loaded
+  if (holoModel) {
+    holoModel.rotation.y += 0.01;
+  }
+
+  // Render both scenes
   renderer.render(scene, camera);
+  holoRenderer.render(holoScene, holoCamera);
 }
+
 animate();
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  holoCamera.aspect = window.innerWidth / 600;
+  holoCamera.updateProjectionMatrix();
+  holoRenderer.setSize(window.innerWidth, 600);
 });
 
 // Cursor trail
@@ -278,40 +316,6 @@ document.addEventListener('mousemove', e => {
   trail.style.top = e.clientY + 'px';
   document.body.appendChild(trail);
   setTimeout(() => trail.remove(), 500);
-});
-
-// 3D Hologram Boy
-const holoCanvas = document.createElement('canvas');
-document.getElementById('hologram').appendChild(holoCanvas);
-const holoScene = new THREE.Scene();
-const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth / 600, 0.1, 1000);
-const holoRenderer = new THREE.WebGLRenderer({ canvas: holoCanvas, alpha: true });
-holoRenderer.setSize(window.innerWidth, 600);
-
-const light = new THREE.PointLight(0x00ffe0, 1, 100);
-light.position.set(10, 10, 10);
-holoScene.add(light);
-
-const loader = new GLTFLoader();
-loader.load('boy.glb', function (gltf) {
-  const model = gltf.scene;
-  model.scale.set(1.5, 1.5, 1.5);
-  holoScene.add(model);
-  animateHolo(model);
-});
-
-holoCamera.position.z = 5;
-
-function animateHolo(model) {
-  requestAnimationFrame(() => animateHolo(model));
-  model.rotation.y += 0.01;
-  holoRenderer.render(holoScene, holoCamera);
-}
-
-window.addEventListener('resize', () => {
-  holoCamera.aspect = window.innerWidth / 600;
-  holoCamera.updateProjectionMatrix();
-  holoRenderer.setSize(window.innerWidth, 600);
 });
 </script>
 
