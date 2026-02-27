@@ -38,8 +38,28 @@ header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn:hover{background:#00c8b0;}
 
 /* Hologram Section */
-#hologram{width:100%;height:600px;position:relative;margin-bottom:50px;}
-#hologramLabel{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#00ffe0;font-family:'Orbitron',sans-serif;font-size:1.2rem;text-shadow:0 0 10px #00ffe0;}
+#hologram{
+  width:100%;
+  height:400px;
+  position:relative;
+  margin-bottom:50px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: rgba(0,0,0,0.2);
+  border-radius:12px;
+  box-shadow:0 0 30px rgba(0,255,224,0.3);
+}
+#hologramLabel{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#00ffe0;
+  font-family:'Orbitron',sans-serif;
+  font-size:1.2rem;
+  text-shadow:0 0 10px #00ffe0;
+}
 
 /* Sections */
 section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
@@ -86,7 +106,7 @@ li{margin-bottom:10px;}
   <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
 </header>
 
-<!-- Hologram Section -->
+<!-- Hologram Section (Holographic Character) -->
 <section id="hologram">
   <div id="hologramLabel">Height: 5'7" | Weight: 68kg | Skin: Light Brown</div>
 </section>
@@ -279,13 +299,13 @@ document.addEventListener('mousemove', e=>{
   setTimeout(()=>trail.remove(),500);
 });
 
-// 3D Hologram Boy
+// 3D Hologram Character
 const holoCanvas = document.createElement('canvas');
 document.getElementById('hologram').appendChild(holoCanvas);
 const holoScene = new THREE.Scene();
-const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/600, 0.1, 1000);
+const holoCamera = new THREE.PerspectiveCamera(45, window.innerWidth/400, 0.1, 1000);
 const holoRenderer = new THREE.WebGLRenderer({canvas:holoCanvas, alpha:true});
-holoRenderer.setSize(window.innerWidth,600);
+holoRenderer.setSize(window.innerWidth,400);
 
 const light = new THREE.PointLight(0x00ffe0, 1, 100);
 light.position.set(10,10,10);
@@ -295,6 +315,17 @@ const loader = new THREE.GLTFLoader();
 loader.load('boy.glb', function(gltf){
   const model = gltf.scene;
   model.scale.set(1.5,1.5,1.5);
+
+  // Holographic glow effect
+  model.traverse((child)=>{
+    if(child.isMesh){
+      child.material.transparent = true;
+      child.material.opacity = 0.85;
+      child.material.emissive = new THREE.Color(0x00ffe0);
+      child.material.emissiveIntensity = 0.3;
+    }
+  });
+
   holoScene.add(model);
   animateHolo(model);
 });
@@ -304,13 +335,14 @@ holoCamera.position.z = 5;
 function animateHolo(model){
   requestAnimationFrame(()=>animateHolo(model));
   model.rotation.y += 0.01;
+  model.position.y = Math.sin(Date.now()*0.002)*0.2; // floating
   holoRenderer.render(holoScene,holoCamera);
 }
 
 window.addEventListener('resize', ()=>{
-  holoCamera.aspect = window.innerWidth/600;
+  holoCamera.aspect = window.innerWidth/400;
   holoCamera.updateProjectionMatrix();
-  holoRenderer.setSize(window.innerWidth,600);
+  holoRenderer.setSize(window.innerWidth,400);
 });
 </script>
 
