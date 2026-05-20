@@ -77,8 +77,46 @@ header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
 .btn:hover{background:#00c8b0;}
 
 /* Sections */
-section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
-section.visible{opacity:1;transform:translateY(0);display:block;}
+section {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: 40px auto;
+  background: rgba(10,10,10,0.7);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0,255,224,0.3);
+
+  opacity: 0;
+  transform: translateY(40px);
+  display: none;
+
+  cursor: pointer;
+
+  /* combined transitions */
+  transition: 
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    opacity 0.8s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+/* Zoomed section */
+section.active-zoom {
+  transform: scale(1.05);
+  box-shadow: 0 0 60px rgba(0, 255, 224, 0.5);
+  z-index: 10;
+  position: relative;
+}
+
+/* Dim other sections */
+section.dim {
+  opacity: 0.3;
+  transform: scale(0.98);
+}  
 h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
 ul{list-style:none;margin-top:10px;}
 li{margin-bottom:10px;}
@@ -405,6 +443,45 @@ const header = document.getElementById('mainHeader');
 const profileBtn = document.getElementById('profileBtn');
 const backBtn = document.getElementById('backBtn');
 const profileSection = document.getElementById('profile');
+
+function clearZoom() {
+  sections.forEach(sec => {
+    sec.classList.remove("active-zoom", "dim");
+  });
+}
+
+sections.forEach(section => {
+  section.addEventListener("click", (e) => {
+
+    // prevent triggering body click reset
+    e.stopPropagation();
+
+    // if already zoomed → reset
+    if (section.classList.contains("active-zoom")) {
+      clearZoom();
+      return;
+    }
+
+    // clear previous zoom first
+    clearZoom();
+
+    // activate zoom on clicked section
+    section.classList.add("active-zoom");
+
+    // dim all others
+    sections.forEach(sec => {
+      if (sec !== section) {
+        sec.classList.add("dim");
+      }
+    });
+
+  });
+});
+
+// click outside to reset zoom
+document.body.addEventListener("click", () => {
+  clearZoom();
+});
 
 // SHOW MAIN SECTIONS
 button.addEventListener('click', () => {
