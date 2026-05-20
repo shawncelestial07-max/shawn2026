@@ -71,7 +71,55 @@ li{margin-bottom:10px;}
 
 /* Cursor trail */
 .trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
+/* About Section Layout */
+.about-container{
+  display:flex;
+  align-items:center;
+  gap:30px;
+  flex-wrap:wrap;
+}
 
+/* Image */
+.about-image img{
+  width:220px;
+  height:220px;
+  object-fit:cover;
+  border-radius:20px;
+  border:3px solid #00ffe0;
+  box-shadow:0 0 25px rgba(0,255,224,0.5);
+  transition:0.4s;
+}
+
+.about-image img:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 40px #00ffe0;
+}
+
+/* Text */
+.about-text{
+  flex:1;
+  min-width:250px;
+}
+
+.about-text h3{
+  font-family:'Orbitron', sans-serif;
+  color:#00ffe0;
+  margin-bottom:15px;
+  font-size:1.8rem;
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .about-container{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .about-image img{
+    width:180px;
+    height:180px;
+  }
+}
 /* Mobile */
 @media(max-width:600px){header h1{font-size:2rem;} header p{font-size:1rem;}}
 </style>
@@ -95,9 +143,35 @@ li{margin-bottom:10px;}
 <!-- About -->
 <section id="about">
 <h2>About Me</h2>
-<p>A results-driven professional with over five years of experience in customer service, administrative support, and social media management. Experienced in handling voice and non-voice accounts, leading outbound campaigns, and supporting daily operations with accuracy and efficiency. Currently working as a Data Entry Specialist, ensuring precise data management and organization. Also experienced as a part-time web designer and web developer, creating functional, user-friendly websites. Brings strong communication skills, attention to detail, and a commitment to delivering high-quality results.</p>
-</section>
 
+<div class="about-container">
+
+  <!-- Profile Image -->
+  <div class="about-image">
+    <img src="your-image-file.jpg" alt="Shawn Eupher Celestial">
+  </div>
+
+  <!-- About Text -->
+  <div class="about-text">
+    <h3>Shawn Eupher Celestial</h3>
+
+    <p>
+      A results-driven professional with over five years of experience in
+      customer service, administrative support, and social media management.
+      Experienced in handling voice and non-voice accounts, leading outbound
+      campaigns, and supporting daily operations with accuracy and efficiency.
+      Currently working as a Data Entry Specialist, ensuring precise data
+      management and organization. Also experienced as a part-time web designer
+      and web developer, creating functional, user-friendly websites. Brings
+      strong communication skills, attention to detail, and a commitment to
+      delivering high-quality results.
+    </p>
+
+  </div>
+
+</div>
+</section>
+  
 <!-- Experience -->
 <section id="experience">
 <h2>Experience</h2>
