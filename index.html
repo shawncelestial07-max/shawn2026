@@ -364,12 +364,27 @@ backBtn.addEventListener('click', () => {
     });
 
     // show ONLY ABOUT section
-    const about = document.getElementById('about');
-    about.style.display = "block";
+    backBtn.addEventListener('click', () => {
+  profileSection.classList.remove('visible');
 
+  setTimeout(() => {
+    profileSection.style.display = "none";
+
+    // RESTORE FULL ORIGINAL VIEW
+    header.classList.remove('hidden');
+
+    sections.forEach((sec, i) => {
+      sec.style.display = "block";
+
+      setTimeout(() => {
+        sec.classList.add('visible');
+      }, i * 200);
+    });
+
+    // restore contact button animation
     setTimeout(() => {
-      about.classList.add('visible');
-    }, 100);
+      contactBtn.classList.add('visible');
+    }, sections.length * 200);
 
   }, 300);
 });
