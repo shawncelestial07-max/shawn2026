@@ -91,8 +91,58 @@ li{margin-bottom:10px;}
 
 /* Social Links */
 .social-links {display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
-.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron', sans-serif;}
-.social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
+.social-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid #00ffe0;
+  color: #00ffe0;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: 0.4s;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+
+  /* layout */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* hover base effect */
+.social-btn:hover {
+  background: #00ffe0;
+  color: #0d0d0d;
+  box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5);
+  transform: translateY(-3px);
+}
+
+/* ICON */
+.social-btn img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  transition: 0.3s ease;
+}
+
+.social-btn:hover img {
+  transform: scale(1.2);
+}
+
+/* BRAND HOVER COLORS */
+.social-btn.linkedin:hover {
+  border-color: #0a66c2;
+  box-shadow: 0 0 20px #0a66c2;
+}
+
+.social-btn.instagram:hover {
+  border-color: #e1306c;
+  box-shadow: 0 0 20px #e1306c;
+}
+
+.social-btn.facebook:hover {
+  border-color: #1877f2;
+  box-shadow: 0 0 20px #1877f2;
+}
 
 /* Contact Button Fade Up */
 #contactBtn{opacity:0; transform:translateY(20px); transition: 0.8s;}
@@ -314,11 +364,26 @@ li{margin-bottom:10px;}
 
 <!-- Social Links -->
 <section id="socials">
-<h2>Connect with Me</h2>
-<div class="social-links">
-<a href="https://www.facebook.com/Shawniee890/" target="_blank" class="social-btn">Facebook</a>
-<a href="https://www.instagram.com/shawncelestial_/" target="_blank" class="social-btn">Instagram</a>
-</div>
+  <h2>Connect with Me</h2>
+
+  <div class="social-links">
+
+    <a href="https://www.facebook.com/Shawniee890/" target="_blank" class="social-btn facebook">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
+      Facebook
+    </a>
+
+    <a href="https://www.instagram.com/shawncelestial_/" target="_blank" class="social-btn instagram">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+      Instagram
+    </a>
+
+    <a href="https://www.linkedin.com/in/shawn-eupher-2b8760205/" target="_blank" class="social-btn linkedin">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn">
+      LinkedIn
+    </a>
+
+  </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
