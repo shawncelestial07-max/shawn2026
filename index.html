@@ -301,6 +301,46 @@ const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
+  const profileBtn = document.getElementById('profileBtn');
+const backBtn = document.getElementById('backBtn');
+const profileSection = document.getElementById('profile');
+  
+  profileBtn.addEventListener('click', () => {
+  header.classList.add('hidden');
+
+  sections.forEach(sec => {
+    sec.classList.remove('visible');
+    sec.style.display = "none";
+  });
+
+  profileSection.style.display = "block";
+
+  setTimeout(() => {
+    profileSection.classList.add('visible');
+  }, 100);
+});
+  backBtn.addEventListener('click', () => {
+  profileSection.classList.remove('visible');
+
+  setTimeout(() => {
+    profileSection.style.display = "none";
+
+    header.classList.remove('hidden');
+
+    sections.forEach((sec, i) => {
+      sec.style.display = "block";
+
+      setTimeout(() => {
+        sec.classList.add('visible');
+      }, i * 200);
+    });
+
+    setTimeout(() => {
+      contactBtn.classList.add('visible');
+    }, sections.length * 200);
+
+  }, 300);
+});
 
 button.addEventListener('click', ()=> {
   header.classList.add('hidden');
