@@ -8,15 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  color:#fff;
+  background:#0d0d0d;
+  overflow-x:hidden;
+}
 
 /* Loading Screen */
 #loadingScreen {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: #0d0d0d;
   display: flex;
   justify-content: center;
@@ -29,6 +44,7 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
   opacity: 1;
   transition: opacity 1s ease;
 }
+
 @keyframes shimmer {
   0% { opacity: 0.3; }
   50% { opacity: 1; }
@@ -36,42 +52,160 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
 }
 
 /* Particle Background */
-#threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+#threeCanvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+}
 
 /* Header */
-header{ text-align:center; padding:100px 20px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:0.5s;}
-header.hidden{display:none;}
-header h1{font-family:'Orbitron',sans-serif;font-size:3rem;background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);background-size: 600% 600%;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: gradientShift 5s ease infinite;}
-@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
-header p{font-size:1.2rem;margin-top:15px;color:#a0fffa;}
-.btn{padding:12px 28px;background:#00ffe0;color:#0d0d0d;border:none;border-radius:5px;cursor:pointer;font-weight:600;transition:0.3s;margin-top:20px;}
-.btn:hover{background:#00c8b0;}
+header{
+  text-align:center;
+  padding:100px 20px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:0.5s;
+}
+
+header.hidden{
+  display:none;
+}
+
+header h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:3rem;
+  background: linear-gradient(270deg, #00ffe0, #00c8b0, #00ffe0);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+header p{
+  font-size:1.2rem;
+  margin-top:15px;
+  color:#a0fffa;
+}
+
+.btn{
+  padding:12px 28px;
+  background:#00ffe0;
+  color:#0d0d0d;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+  margin-top:20px;
+  text-decoration:none;
+}
+
+.btn:hover{
+  background:#00c8b0;
+}
 
 /* Sections */
-section{padding:50px 20px;max-width:900px;margin:40px auto;background:rgba(10,10,10,0.7);border-radius:12px;box-shadow:0 0 30px rgba(0,255,224,0.3);opacity:0;transform:translateY(40px);transition:0.8s;display:none;}
-section.visible{opacity:1;transform:translateY(0);display:block;}
-h2{margin-bottom:20px;color:#00ffe0;font-family:'Orbitron',sans-serif;}
-ul{list-style:none;margin-top:10px;}
-li{margin-bottom:10px;}
+section{
+  padding:50px 20px;
+  max-width:900px;
+  margin:40px auto;
+  background:rgba(10,10,10,0.7);
+  border-radius:12px;
+  box-shadow:0 0 30px rgba(0,255,224,0.3);
+  opacity:0;
+  transform:translateY(40px);
+  transition:0.8s;
+  display:none;
+}
 
-/* Experience Cards */
-.card{margin-bottom:15px;padding:20px;border-left:4px solid #00ffe0;background: rgba(0,255,224,0.05);border-radius:8px;backdrop-filter: blur(5px);transition:0.3s;box-shadow:0 0 10px rgba(0,255,224,0.1);transform-style: preserve-3d;}
-.card:hover{box-shadow:0 0 30px #00ffe0, 0 0 50px rgba(0,255,224,0.3);transform: rotateY(5deg) rotateX(5deg) translateY(-5px);}
-.card h3{margin-bottom:5px;color:#00ffe0;}
-.card span{font-size:0.9rem;color:#a0fffa;}
+section.visible{
+  opacity:1;
+  transform:translateY(0);
+  display:block;
+}
+
+h2{
+  margin-bottom:20px;
+  color:#00ffe0;
+  font-family:'Orbitron',sans-serif;
+}
+
+ul{
+  list-style:none;
+  margin-top:10px;
+}
+
+li{
+  margin-bottom:10px;
+}
+
+/* Cards */
+.card{
+  margin-bottom:15px;
+  padding:20px;
+  border-left:4px solid #00ffe0;
+  background: rgba(0,255,224,0.05);
+  border-radius:8px;
+  backdrop-filter: blur(5px);
+  transition:0.3s;
+  box-shadow:0 0 10px rgba(0,255,224,0.1);
+}
+
+.card:hover{
+  box-shadow:0 0 30px #00ffe0;
+  transform: translateY(-5px);
+}
+
+.card h3{
+  margin-bottom:5px;
+  color:#00ffe0;
+}
+
+.card span{
+  font-size:0.9rem;
+  color:#a0fffa;
+}
 
 /* Social Links */
-.social-links {display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 15px;}
-.social-btn {padding: 12px 24px; background: transparent; border: 2px solid #00ffe0; color: #00ffe0; font-weight: 600; border-radius: 8px; transition: 0.4s; text-decoration: none; font-family: 'Orbitron', sans-serif;}
-.social-btn:hover {background: #00ffe0; color: #0d0d0d; box-shadow: 0 0 20px #00ffe0, 0 0 40px rgba(0,255,224,0.5); transform: translateY(-3px);}
+.social-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
 
-/* Contact Button Fade Up */
-#contactBtn{opacity:0; transform:translateY(20px); transition: 0.8s;}
-#contactBtn.visible{opacity:1; transform:translateY(0);}
+.social-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid #00ffe0;
+  color: #00ffe0;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: 0.4s;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+}
 
-/* Cursor trail */
-.trail{position: fixed;width: 10px;height: 10px;background: #00ffe0;border-radius: 50%;pointer-events: none;opacity: 0.5;transform: translate(-50%, -50%);mix-blend-mode: lighten;}
-/* About Section Layout */
+.social-btn:hover {
+  background: #00ffe0;
+  color: #0d0d0d;
+  box-shadow: 0 0 20px #00ffe0;
+}
+
+/* About Section */
 .about-container{
   display:flex;
   align-items:center;
@@ -79,7 +213,6 @@ li{margin-bottom:10px;}
   flex-wrap:wrap;
 }
 
-/* Image */
 .about-image img{
   width:220px;
   height:220px;
@@ -87,15 +220,8 @@ li{margin-bottom:10px;}
   border-radius:20px;
   border:3px solid #00ffe0;
   box-shadow:0 0 25px rgba(0,255,224,0.5);
-  transition:0.4s;
 }
 
-.about-image img:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 40px #00ffe0;
-}
-
-/* Text */
 .about-text{
   flex:1;
   min-width:250px;
@@ -106,6 +232,17 @@ li{margin-bottom:10px;}
   color:#00ffe0;
   margin-bottom:15px;
   font-size:1.8rem;
+}
+
+/* Degree Details */
+#degreeDetails{
+  display:none;
+  opacity:1;
+  transform:none;
+}
+
+#backBtn{
+  margin-bottom:20px;
 }
 
 /* Mobile */
@@ -120,10 +257,19 @@ li{margin-bottom:10px;}
     height:180px;
   }
 }
-/* Mobile */
-@media(max-width:600px){header h1{font-size:2rem;} header p{font-size:1rem;}}
+
+@media(max-width:600px){
+  header h1{
+    font-size:2rem;
+  }
+
+  header p{
+    font-size:1rem;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <!-- Loading Screen -->
@@ -136,223 +282,293 @@ li{margin-bottom:10px;}
 <header id="mainHeader">
   <h1>Shawn Eupher Celestial</h1>
   <p>Web Developer | Web Designer | Data Entry Specialist</p>
-  <button class="btn" id="showContent">Get to Know Me!</button>
-  <a href="mailto:shawn@example.com" class="btn" id="contactBtn">Contact Me</a>
+
+  <button class="btn" id="showContent">
+    Get to Know Me!
+  </button>
 </header>
 
 <!-- About -->
 <section id="about">
+
 <h2>About Me</h2>
 
 <div class="about-container">
 
-  <!-- Profile Image -->
-  <div class="about-image">
-    <img src="shawn.jpg" alt="Shawn Eupher Celestial">
-  </div>
+<div class="about-image">
+  <img src="shawn.jpg" alt="Shawn Eupher Celestial">
+</div>
 
-  <!-- About Text -->
-  <div class="about-text">
-    <h3>Shawn Eupher Celestial</h3>
+<div class="about-text">
+  <h3>Shawn Eupher Celestial</h3>
 
-    <p>
-      A results-driven professional with over five years of experience in
-      customer service, administrative support, and social media management.
-      Experienced in handling voice and non-voice accounts, leading outbound
-      campaigns, and supporting daily operations with accuracy and efficiency.
-      Currently working as a Data Entry Specialist, ensuring precise data
-      management and organization. Also experienced as a part-time web designer
-      and web developer, creating functional, user-friendly websites. Brings
-      strong communication skills, attention to detail, and a commitment to
-      delivering high-quality results.
-    </p>
-
-  </div>
+  <p>
+    A results-driven professional with over five years of experience in
+    customer service, administrative support, and social media management.
+    Experienced in handling voice and non-voice accounts, leading outbound
+    campaigns, and supporting daily operations with accuracy and efficiency.
+  </p>
+</div>
 
 </div>
 </section>
-  
+
 <!-- Experience -->
 <section id="experience">
+
 <h2>Experience</h2>
 
 <div class="card">
 <h3>Customer Service Representative</h3>
-<span>Sprintuality Voice Account | 2019 - 2020</span>
-<ul>
-<li>Engaged with customers via inbound and outbound calls to provide assistance with Medicare enrollment and loan application processes.</li>
-<li>Identified opportunities to upsell or cross-sell additional products or services based on customer needs and preferences.</li>
-</ul>
+<span>2019 - 2020</span>
 </div>
 
 <div class="card">
 <h3>Insurance Customer Support Specialist</h3>
-<span>AI Media Top Seller | 2020 - 2021</span>
-<ul>
-<li>Provided support to insurance customers primarily through email, chat, and other non-voice channels.</li>
-<li>Met or exceeded established performance metrics, including response times, resolution rates, and customer satisfaction scores.</li>
-</ul>
+<span>2020 - 2021</span>
 </div>
 
 <div class="card">
 <h3>Manager of Outbound Call Center</h3>
-<span>Icare Solutions | 2021 - 2023</span>
-<ul>
-<li>Developed and implemented outbound calling strategies and campaigns to meet client objectives and revenue targets.</li>
-<li>Managed lead generation, sales, market research, and customer follow-up initiatives.</li>
-</ul>
+<span>2021 - 2023</span>
 </div>
 
-<div class="card">
-<h3>Social Media Manager</h3>
-<span>2022 - 2025</span>
-<ul>
-<li>Created, scheduled, and managed content across social media platforms to grow brand presence and engagement.</li>
-<li>Analyzed performance metrics, ran campaigns, and interacted with audiences to support business goals.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Admin Assistant</h3>
-<span>GetSimpli | 2024 - 2025</span>
-<ul>
-<li>Provided administrative support by handling office tasks, managing schedules, organizing files, and assisting with communications.</li>
-<li>Ensured efficient daily operations and supported team productivity.</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Data Entry Specialist</h3>
-<span>2024 - 2025</span>
-<ul>
-<li>Accurately inputted, updated, and maintained data in digital systems or databases.</li>
-<li>Ensured information was complete, error-free, and organized.</li>
-</ul>
-</div>
 </section>
 
-<!-- Resume Section -->
+<!-- Degree Section -->
+<section id="degreeSection">
+
+<h2>Degree</h2>
+
+<div class="card" id="degreeCard" style="cursor:pointer;">
+
+<h3>Bachelor of Science in Psychology</h3>
+
+<span>Click to View Details</span>
+
+</div>
+
+</section>
+
+<!-- Degree Details -->
+<section id="degreeDetails">
+
+<button class="btn" id="backBtn">
+⬅ Back
+</button>
+
+<h2>Degree Details</h2>
+
+<div class="card">
+
+<h3>Bachelor of Science in Psychology</h3>
+
+<ul>
+
+<li>
+<strong>School Graduated:</strong>
+Riverside College Bacolod
+</li>
+
+<li>
+<strong>Course:</strong>
+BS Psychology
+</li>
+
+<li>
+<strong>Year Graduated:</strong>
+June 5, 2026
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- Resume -->
 <section id="resume">
-  <h2>View My Resume</h2>
-  <p>:</p>
-  <a href="resume.pdf" download class="btn" style="margin-top:20px;">Download Resume (PDF)</a>
+
+<h2>View My Resume</h2>
+
+<a href="resume.pdf" download class="btn">
+Download Resume (PDF)
+</a>
+
 </section>
 
 <!-- Social Links -->
 <section id="socials">
+
 <h2>Connect with Me</h2>
+
 <div class="social-links">
-<a href="https://www.facebook.com/Shawniee890/" target="_blank" class="social-btn">Facebook</a>
-<a href="https://www.instagram.com/shawncelestial_/" target="_blank" class="social-btn">Instagram</a>
+
+<a href="https://www.facebook.com/Shawniee890/" target="_blank" class="social-btn">
+Facebook
+</a>
+
+<a href="https://www.instagram.com/shawncelestial_/" target="_blank" class="social-btn">
+Instagram
+</a>
+
 </div>
+
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
 <script>
-// Loading screen fade out
+
+// Loading Screen
 window.addEventListener('load', ()=> {
+
   const loadingScreen = document.getElementById('loadingScreen');
+
   loadingScreen.style.opacity='0';
-  setTimeout(()=>{ loadingScreen.style.display='none'; },1000);
+
+  setTimeout(()=>{
+    loadingScreen.style.display='none';
+  },1000);
+
 });
 
-// Show content
+// Show Content
 const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
-const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
 
 button.addEventListener('click', ()=> {
+
   header.classList.add('hidden');
+
   sections.forEach((sec,i)=>{
-    setTimeout(()=>{ sec.classList.add('visible'); }, i*200);
+
+    if(sec.id !== 'degreeDetails'){
+
+      setTimeout(()=>{
+        sec.classList.add('visible');
+      }, i*200);
+
+    }
+
   });
-  setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
+
 });
 
-// Particle Background
+// Degree Navigation
+const degreeCard = document.getElementById('degreeCard');
+const degreeDetails = document.getElementById('degreeDetails');
+const backBtn = document.getElementById('backBtn');
+
+degreeCard.addEventListener('click', ()=> {
+
+  sections.forEach(sec => {
+    sec.style.display = 'none';
+  });
+
+  degreeDetails.style.display = 'block';
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+});
+
+backBtn.addEventListener('click', ()=> {
+
+  sections.forEach(sec => {
+
+    if(sec.id !== 'degreeDetails'){
+      sec.style.display = 'block';
+    }
+
+  });
+
+  degreeDetails.style.display = 'none';
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+});
+
+// Three.js Background
 const canvas = document.getElementById('threeCanvas');
+
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
-const renderer = new THREE.WebGLRenderer({canvas,alpha:true});
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth/window.innerHeight,
+  0.1,
+  1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  alpha:true
+});
+
 renderer.setSize(window.innerWidth,window.innerHeight);
 
 const particleCount=80;
-const particles=[];
+
 const geometry = new THREE.BufferGeometry();
+
 const positions = new Float32Array(particleCount*3);
 
 for(let i=0;i<particleCount;i++){
-  const x=(Math.random()-0.5)*100;
-  const y=(Math.random()-0.5)*100;
-  const z=(Math.random()-0.5)*100;
-  positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
-  particles.push({pos:new THREE.Vector3(x,y,z), vel:new THREE.Vector3((Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05,(Math.random()-0.5)*0.05)});
-}
-geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
-const material = new THREE.PointsMaterial({color:0x00ffe0, size:0.5});
-const points = new THREE.Points(geometry, material);
-scene.add(points);
 
-const maxConnections=2;
-const lineGeometry = new THREE.BufferGeometry();
-const linePositions = new Float32Array(particleCount*maxConnections*3*2);
-lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions,3));
-const lineMaterial = new THREE.LineBasicMaterial({color:0x00ffe0, transparent:true, opacity:0.25});
-const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-scene.add(lines);
+  positions[i*3]=(Math.random()-0.5)*100;
+  positions[i*3+1]=(Math.random()-0.5)*100;
+  positions[i*3+2]=(Math.random()-0.5)*100;
+
+}
+
+geometry.setAttribute(
+  'position',
+  new THREE.BufferAttribute(positions,3)
+);
+
+const material = new THREE.PointsMaterial({
+  color:0x00ffe0,
+  size:0.5
+});
+
+const points = new THREE.Points(geometry, material);
+
+scene.add(points);
 
 camera.position.z=50;
 
-let mouseX=0, mouseY=0;
-document.addEventListener('mousemove', e=>{ mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30; });
-
 function animate(){
+
   requestAnimationFrame(animate);
 
-  particles.forEach((p,i)=>{
-    p.pos.add(p.vel);
-    if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
-    if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
-    if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
-    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
-  });
-  geometry.attributes.position.needsUpdate=true;
-
-  let idx=0;
-  particles.forEach((p1,i)=>{
-    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
-      const p2=particles[j%particles.length];
-      linePositions[idx++] = p1.pos.x; linePositions[idx++] = p1.pos.y; linePositions[idx++] = p1.pos.z;
-      linePositions[idx++] = p2.pos.x; linePositions[idx++] = p2.pos.y; linePositions[idx++] = p2.pos.z;
-    }
-  });
-  lineGeometry.attributes.position.needsUpdate=true;
-
-  points.rotation.x += 0.001+mouseY*0.0001;
-  points.rotation.y += 0.001+mouseX*0.0001;
-  lines.rotation.x = points.rotation.x;
-  lines.rotation.y = points.rotation.y;
+  points.rotation.y += 0.001;
 
   renderer.render(scene,camera);
+
 }
+
 animate();
 
 window.addEventListener('resize', ()=>{
+
   camera.aspect = window.innerWidth/window.innerHeight;
+
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
+
+  renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+  );
+
 });
 
-// Cursor trail
-document.addEventListener('mousemove', e=>{
-  const trail = document.createElement('div');
-  trail.classList.add('trail');
-  trail.style.left=e.clientX+'px';
-  trail.style.top=e.clientY+'px';
-  document.body.appendChild(trail);
-  setTimeout(()=>trail.remove(),500);
-});
 </script>
 
 </body>
