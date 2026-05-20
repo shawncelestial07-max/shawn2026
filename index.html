@@ -286,7 +286,7 @@ li{margin-bottom:10px;}
 </section>
 
   <!-- Profile Section -->
-<section id="profile" style="display:none;">
+<section id="profile">
   <h2>Profile Details</h2>
 
   <div class="card">
@@ -332,7 +332,7 @@ window.addEventListener('load', ()=> {
 
 // Show content
 const button = document.getElementById('showContent');
-const sections = document.querySelectorAll('section');
+const sections = document.querySelectorAll('section:not(#profile)');
 const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
 
