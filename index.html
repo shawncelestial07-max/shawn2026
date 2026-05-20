@@ -328,21 +328,35 @@ const button = document.getElementById('showContent');
 const sections = document.querySelectorAll('section');
 const contactBtn = document.getElementById('contactBtn');
 const header = document.getElementById('mainHeader');
-  const profileBtn = document.getElementById('profileBtn');
+const profileBtn = document.getElementById('profileBtn');
 const backBtn = document.getElementById('backBtn');
 const profileSection = document.getElementById('profile');
 
- {
+// show main sections
+button.addEventListener('click', () => {
+  header.classList.add('hidden');
+
+  sections.forEach((sec, i) => {
+    sec.style.display = "block";
+
+    setTimeout(() => {
+      sec.classList.add('visible');
+    }, i * 200);
+  });
+
+  setTimeout(() => {
+    contactBtn.classList.add('visible');
+  }, sections.length * 200);
+});
+
+// open profile
+profileBtn.addEventListener('click', () => {
+  header.classList.add('hidden');
+
   sections.forEach(sec => {
     sec.classList.remove('visible');
     sec.style.display = "none";
   });
-}
-
-profileBtn.addEventListener('click', () => {
-  header.classList.add('hidden');
-
-  hideAllSections();
 
   profileSection.style.display = "block";
 
@@ -351,6 +365,7 @@ profileBtn.addEventListener('click', () => {
   }, 100);
 });
 
+// back from profile
 backBtn.addEventListener('click', () => {
   profileSection.classList.remove('visible');
 
@@ -360,7 +375,7 @@ backBtn.addEventListener('click', () => {
     header.classList.remove('hidden');
 
     sections.forEach((sec, i) => {
-      sec.classList.remove('visible');
+      sec.style.display = "block";
 
       setTimeout(() => {
         sec.classList.add('visible');
