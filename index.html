@@ -34,6 +34,35 @@ body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hid
   50% { opacity: 1; }
   100% { opacity: 0.3; }
 }
+  /* Center About Image + Button */
+.about-image{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Profile Button */
+#profileBtn{
+  margin-top: 15px;
+  font-size: 0.9rem;
+  padding: 8px 18px;
+  border: 2px solid #00ffe0;
+  background: transparent;
+  color: #00ffe0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 10px rgba(0,255,224,0.2);
+}
+
+/* Hover effect */
+#profileBtn:hover{
+  background: #00ffe0;
+  color: #0d0d0d;
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #00ffe0;
+}
 
 /* Particle Background */
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
@@ -150,9 +179,7 @@ li{margin-bottom:10px;}
   <div class="about-image">
   <img src="shawn.jpg" alt="Shawn Eupher Celestial">
 
-  <button class="btn" id="profileBtn" style="margin-top:15px; font-size:0.9rem; padding:8px 16px;">
-    Profile
-  </button>
+  <button id="profileBtn">Profile</button>
 </div>
 
   <!-- About Text -->
@@ -304,14 +331,18 @@ const header = document.getElementById('mainHeader');
   const profileBtn = document.getElementById('profileBtn');
 const backBtn = document.getElementById('backBtn');
 const profileSection = document.getElementById('profile');
-  
-  profileBtn.addEventListener('click', () => {
-  header.classList.add('hidden');
 
+function hideAllSections() {
   sections.forEach(sec => {
     sec.classList.remove('visible');
     sec.style.display = "none";
   });
+}
+
+profileBtn.addEventListener('click', () => {
+  header.classList.add('hidden');
+
+  hideAllSections();
 
   profileSection.style.display = "block";
 
@@ -319,25 +350,26 @@ const profileSection = document.getElementById('profile');
     profileSection.classList.add('visible');
   }, 100);
 });
-  backBtn.addEventListener('click', () => {
+
+backBtn.addEventListener('click', () => {
   profileSection.classList.remove('visible');
 
   setTimeout(() => {
     profileSection.style.display = "none";
 
-    header.classList.remove('hidden');
-
-    sections.forEach((sec, i) => {
-      sec.style.display = "block";
-
-      setTimeout(() => {
-        sec.classList.add('visible');
-      }, i * 200);
+    // IMPORTANT RESET (this fixes your overlap bug)
+    sections.forEach(sec => {
+      sec.style.display = "none";
+      sec.classList.remove('visible');
     });
 
+    // show ONLY ABOUT section
+    const about = document.getElementById('about');
+    about.style.display = "block";
+
     setTimeout(() => {
-      contactBtn.classList.add('visible');
-    }, sections.length * 200);
+      about.classList.add('visible');
+    }, 100);
 
   }, 300);
 });
