@@ -363,38 +363,31 @@ backBtn.addEventListener('click', () => {
       sec.classList.remove('visible');
     });
 
-    // show ONLY ABOUT section
-    backBtn.addEventListener('click', () => {
+    // show FULL RESTORE section
+   backBtn.addEventListener('click', () => {
   profileSection.classList.remove('visible');
 
   setTimeout(() => {
     profileSection.style.display = "none";
 
-    // RESTORE FULL ORIGINAL VIEW
     header.classList.remove('hidden');
 
+    // reset contact button animation cleanly
+    contactBtn.classList.remove('visible');
+
     sections.forEach((sec, i) => {
-      sec.style.display = "block";
+      sec.classList.remove('visible');
 
       setTimeout(() => {
         sec.classList.add('visible');
       }, i * 200);
     });
 
-    // restore contact button animation
     setTimeout(() => {
       contactBtn.classList.add('visible');
     }, sections.length * 200);
 
   }, 300);
-});
-
-button.addEventListener('click', ()=> {
-  header.classList.add('hidden');
-  sections.forEach((sec,i)=>{
-    setTimeout(()=>{ sec.classList.add('visible'); }, i*200);
-  });
-  setTimeout(()=>{ contactBtn.classList.add('visible'); }, sections.length*200);
 });
 
 // Particle Background
