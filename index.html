@@ -332,31 +332,38 @@ const profileBtn = document.getElementById('profileBtn');
 const backBtn = document.getElementById('backBtn');
 const profileSection = document.getElementById('profile');
 
-// show main sections
+// helper: hide all sections
+function hideAllSections() {
+  sections.forEach(sec => {
+    sec.classList.remove('visible');
+    sec.style.display = "none";
+  });
+}
+
+// GET TO KNOW ME button (FIXED)
 button.addEventListener('click', () => {
   header.classList.add('hidden');
+
+  hideAllSections();
 
   sections.forEach((sec, i) => {
     sec.style.display = "block";
 
     setTimeout(() => {
       sec.classList.add('visible');
-    }, i * 200);
+    }, i * 150);
   });
 
   setTimeout(() => {
     contactBtn.classList.add('visible');
-  }, sections.length * 200);
+  }, sections.length * 150);
 });
 
-// open profile
+// PROFILE OPEN
 profileBtn.addEventListener('click', () => {
   header.classList.add('hidden');
 
-  sections.forEach(sec => {
-    sec.classList.remove('visible');
-    sec.style.display = "none";
-  });
+  hideAllSections();
 
   profileSection.style.display = "block";
 
@@ -365,7 +372,7 @@ profileBtn.addEventListener('click', () => {
   }, 100);
 });
 
-// back from profile
+// BACK BUTTON
 backBtn.addEventListener('click', () => {
   profileSection.classList.remove('visible');
 
@@ -374,17 +381,19 @@ backBtn.addEventListener('click', () => {
 
     header.classList.remove('hidden');
 
+    hideAllSections();
+
     sections.forEach((sec, i) => {
       sec.style.display = "block";
 
       setTimeout(() => {
         sec.classList.add('visible');
-      }, i * 200);
+      }, i * 150);
     });
 
     setTimeout(() => {
       contactBtn.classList.add('visible');
-    }, sections.length * 200);
+    }, sections.length * 150);
 
   }, 300);
 });
