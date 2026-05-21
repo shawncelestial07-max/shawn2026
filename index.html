@@ -259,6 +259,34 @@ li{margin-bottom:10px;}
   font-size:1.8rem;
 }
 
+  /* Resume Button */
+.resume-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:20px;
+}
+
+.resume-btn{
+  padding:8px 18px;
+  font-size:0.8rem;
+  background:transparent;
+  border:2px solid #00ffe0;
+  color:#00ffe0;
+  border-radius:8px;
+  text-decoration:none;
+  font-family:'Orbitron', sans-serif;
+  transition:0.3s;
+  box-shadow:0 0 10px rgba(0,255,224,0.2);
+}
+
+.resume-btn:hover{
+  background:#00ffe0;
+  color:#0d0d0d;
+  box-shadow:0 0 25px #00ffe0;
+  transform:scale(1.05);
+}
+
 /* Mobile */
 @media(max-width:768px){
   .about-container{
@@ -526,8 +554,12 @@ li{margin-bottom:10px;}
 <!-- Resume Section -->
 <section id="resume">
   <h2>View My Resume</h2>
-  <p>:</p>
-  <a href="resume.pdf" download class="btn" style="margin-top:20px;">Download Resume (PDF)</a>
+
+  <div class="resume-container">
+    <a href="resume.pdf" download class="resume-btn">
+      Download Resume (PDF)
+    </a>
+  </div>
 </section>
 
 <!-- Social Links -->
