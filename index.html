@@ -12,6 +12,12 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;color:#fff;background:#0d0d0d;overflow-x:hidden;}
 
+#game h3 {
+  margin-top: 15px;
+  color: #00ffe0;
+  font-family: 'Orbitron', sans-serif;
+}
+
 /* Loading Screen */
 #loadingScreen {
   position: fixed;
@@ -602,6 +608,16 @@ li{margin-bottom:10px;}
   </div>
 </section>
 
+  <!-- Game Section -->
+<section id="game">
+  <h2>Mini Game: Particle Catch</h2>
+  <p>Click glowing particles. Score as many as you can in 30 seconds.</p>
+
+  <button class="btn" id="startGame">Start Game</button>
+
+  <h3 id="score">Score: 0</h3>
+</section>
+
 <!-- Social Links -->
 <section id="socials">
   <h2>Connect with Me</h2>
@@ -847,39 +863,58 @@ const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
 scene.add(lines);
 
 camera.position.z=50;
+  let score = 0;
+let gameActive = false;
+let gameTimer;
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
 let mouseX=0, mouseY=0;
 document.addEventListener('mousemove', e=>{ mouseX=(e.clientX-window.innerWidth/2)/30; mouseY=(e.clientY-window.innerHeight/2)/30; });
+window.addEventListener("click", (event) => {
+  if (!gameActive) return;
 
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObject(points);
+
+  if (intersects.length > 0) {
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+  }
+});
 function animate(){
   requestAnimationFrame(animate);
 
+  // particle updates (your logic goes here)
   particles.forEach((p,i)=>{
     p.pos.add(p.vel);
+
     if(p.pos.x>50||p.pos.x<-50)p.vel.x*=-1;
     if(p.pos.y>50||p.pos.y<-50)p.vel.y*=-1;
     if(p.pos.z>50||p.pos.z<-50)p.vel.z*=-1;
-    positions[i*3]=p.pos.x; positions[i*3+1]=p.pos.y; positions[i*3+2]=p.pos.z;
+
+    positions[i*3]=p.pos.x;
+    positions[i*3+1]=p.pos.y;
+    positions[i*3+2]=p.pos.z;
   });
+
   geometry.attributes.position.needsUpdate=true;
 
-  let idx=0;
-  particles.forEach((p1,i)=>{
-    for(let j=i+1;j<particles.length && j<i+1+maxConnections;j++){
-      const p2=particles[j%particles.length];
-      linePositions[idx++] = p1.pos.x; linePositions[idx++] = p1.pos.y; linePositions[idx++] = p1.pos.z;
-      linePositions[idx++] = p2.pos.x; linePositions[idx++] = p2.pos.y; linePositions[idx++] = p2.pos.z;
-    }
-  });
-  lineGeometry.attributes.position.needsUpdate=true;
+  // rotation using mouse
+  points.rotation.x += 0.001 + mouseY*0.0001;
+  points.rotation.y += 0.001 + mouseX*0.0001;
 
-  points.rotation.x += 0.001+mouseY*0.0001;
-  points.rotation.y += 0.001+mouseX*0.0001;
   lines.rotation.x = points.rotation.x;
   lines.rotation.y = points.rotation.y;
 
-  renderer.render(scene,camera);
+  renderer.render(scene, camera);
 }
+
 animate();
 
 window.addEventListener('resize', ()=>{
