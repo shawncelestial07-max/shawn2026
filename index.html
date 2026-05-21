@@ -684,63 +684,6 @@ document.body.addEventListener("click", () => {
   clearZoom();
 });
 
-// SHOW MAIN SECTIONS
-button.addEventListener('click', () => {
-  header.classList.add('hidden');
-
-  sections.forEach((sec, i) => {
-    sec.style.display = "block";
-
-    setTimeout(() => {
-      sec.classList.add('visible');
-    }, i * 150);
-  });
-
-  setTimeout(() => {
-    contactBtn.classList.add('visible');
-  }, sections.length * 150);
-});
-
-// PROFILE OPEN
-profileBtn.addEventListener('click', () => {
-  header.classList.add('hidden');
-
-  sections.forEach(sec => {
-    sec.classList.remove('visible');
-    sec.style.display = "none";
-  });
-
-  profileSection.style.display = "block";
-
-  setTimeout(() => {
-    profileSection.classList.add('visible');
-  }, 100);
-});
-
-// BACK BUTTON
-backBtn.addEventListener('click', () => {
-  profileSection.classList.remove('visible');
-
-  setTimeout(() => {
-    profileSection.style.display = "none";
-
-    header.classList.add('hidden');
-
-    sections.forEach((sec, i) => {
-      sec.style.display = "block";
-
-      setTimeout(() => {
-        sec.classList.add('visible');
-      }, i * 150);
-    });
-
-    setTimeout(() => {
-      contactBtn.classList.add('visible');
-    }, sections.length * 150);
-
-  }, 300);
-});
-
 // EVENTS
   function hideAllSections() {
   sections.forEach(sec => {
