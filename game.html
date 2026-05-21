@@ -153,6 +153,7 @@ canvas{
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const bgMusic = document.getElementById("bgMusic");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -424,7 +425,19 @@ function animate(){
   drawObstacles();
 
 }
+window.addEventListener("load", () => {
 
+  bgMusic.volume = 0.5;
+
+  const playPromise = bgMusic.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch((err) => {
+      console.log("Autoplay blocked by browser:", err);
+    });
+  }
+
+});
 animate();
 
 /* =========================
@@ -498,6 +511,19 @@ window.addEventListener("resize",()=>{
 
 });
 
+  function startMusic() {
+  if (bgMusic.paused) {
+    bgMusic.volume = 0.5;
+    bgMusic.play().catch(err => {
+      console.log("Still blocked:", err);
+    });
+  }
+}
+  
+window.addEventListener("click", startMusic, { once: true });
+window.addEventListener("keydown", startMusic, { once: true });
+window.addEventListener("touchstart", startMusic, { once: true });
+  
 </script>
 
 </body>
