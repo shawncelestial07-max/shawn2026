@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Particle Runner Game</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  overflow:hidden;
+  background:#0d0d0d;
+  font-family:'Orbitron', sans-serif;
+  color:white;
+}
+
+/* CANVAS */
+canvas{
+  display:block;
+}
+
+/* SCORE */
+#scoreBoard{
+  position:absolute;
+  top:20px;
+  left:20px;
+  z-index:10;
+  color:#00ffe0;
+  font-size:1.2rem;
+  text-shadow:0 0 10px #00ffe0;
+}
+
+/* BACK BUTTON */
+#backBtn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  z-index:10;
+
+  padding:10px 18px;
+
+  border:2px solid #00ffe0;
+  background:transparent;
+  color:#00ffe0;
+
+  border-radius:8px;
+  cursor:pointer;
+
+  font-family:'Orbitron', sans-serif;
+
+  transition:0.3s;
+}
+
+#backBtn:hover{
+  background:#00ffe0;
+  color:#0d0d0d;
+  box-shadow:0 0 20px #00ffe0;
+}
+
+/* GAME OVER */
+#gameOver{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  display:none;
+  z-index:20;
+}
+
+#gameOver h1{
+  font-size:3rem;
+  color:#00ffe0;
+  margin-bottom:20px;
+  text-shadow:0 0 20px #00ffe0;
+}
+
+#restartBtn{
+  padding:12px 24px;
+
+  border:none;
+  background:#00ffe0;
+  color:#0d0d0d;
+
+  border-radius:8px;
+  cursor:pointer;
+
+  font-size:1rem;
+  font-weight:bold;
+
+  transition:0.3s;
+}
+
+#restartBtn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px #00ffe0;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  #gameOver h1{
+    font-size:2rem;
+  }
+
+  #scoreBoard{
+    font-size:1rem;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SCORE -->
+<div id="scoreBoard">
+  Score: <span id="score">0</span>
+</div>
+
+<!-- BACK BUTTON -->
+<button id="backBtn" onclick="window.location.href='index.html'">
+  Back to Resume
+</button>
+
+<!-- GAME OVER -->
+<div id="gameOver">
+  <h1>GAME OVER</h1>
+
+  <button id="restartBtn">
+    Restart
+  </button>
+</div>
+
+<!-- GAME -->
+<canvas id="gameCanvas"></canvas>
+
+<script>
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let gameSpeed = 7;
+let gravity = 0.9;
+let score = 0;
+let gameRunning = true;
+
+/* =========================
+   PLAYER
+========================= */
+
+const player = {
+  x:120,
+  y:canvas.height - 180,
+  width:45,
+  height:45,
+  velocityY:0,
+  jumpForce:-17,
+  grounded:true
+};
+
+/* =========================
+   ARRAYS
+========================= */
+
+let obstacles = [];
+let particles = [];
+
+/* =========================
+   PARTICLE BACKGROUND
+========================= */
+
+function createParticles(){
+
+  particles = [];
+
+  for(let i=0;i<120;i++){
+
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      size:Math.random()*2 + 1,
+      speed:Math.random()*1.5 + 0.5
+    });
+
+  }
+
+}
+
+createParticles();
+
+function drawParticles(){
+
+  particles.forEach(p=>{
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+
+    ctx.fillStyle = "rgba(0,255,224,0.8)";
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "#00ffe0";
+
+    ctx.fill();
+
+    p.x -= p.speed;
+
+    if(p.x < 0){
+      p.x = canvas.width;
+      p.y = Math.random()*canvas.height;
+    }
+
+  });
+
+}
+
+/* =========================
+   PLAYER DRAW
+========================= */
+
+function drawPlayer(){
+
+  ctx.fillStyle = "#00ffe0";
+
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = "#00ffe0";
+
+  /* BODY */
+  ctx.fillRect(
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  );
+
+  /* EYE */
+  ctx.fillStyle = "#0d0d0d";
+
+  ctx.fillRect(
+    player.x + 28,
+    player.y + 10,
+    6,
+    6
+  );
+
+  ctx.shadowBlur = 0;
+
+}
+
+/* =========================
+   PLAYER UPDATE
+========================= */
+
+function updatePlayer(){
+
+  player.velocityY += gravity;
+
+  player.y += player.velocityY;
+
+  const ground = canvas.height - 140;
+
+  if(player.y >= ground){
+
+    player.y = ground;
+
+    player.velocityY = 0;
+
+    player.grounded = true;
+
+  }
+
+}
+
+/* =========================
+   GROUND
+========================= */
+
+function drawGround(){
+
+  ctx.beginPath();
+
+  ctx.moveTo(0, canvas.height - 95);
+  ctx.lineTo(canvas.width, canvas.height - 95);
+
+  ctx.strokeStyle = "#00ffe0";
+  ctx.lineWidth = 4;
+
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = "#00ffe0";
+
+  ctx.stroke();
+
+  ctx.shadowBlur = 0;
+
+}
+
+/* =========================
+   OBSTACLES
+========================= */
+
+function createObstacle(){
+
+  const height = Math.random()*40 + 30;
+
+  obstacles.push({
+
+    x:canvas.width,
+    y:canvas.height - 140,
+    width:25,
+    height:height
+
+  });
+
+}
+
+function drawObstacles(){
+
+  obstacles.forEach((obs,index)=>{
+
+    obs.x -= gameSpeed;
+
+    ctx.fillStyle = "#ff0055";
+
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "#ff0055";
+
+    ctx.fillRect(
+      obs.x,
+      obs.y + (50 - obs.height),
+      obs.width,
+      obs.height
+    );
+
+    ctx.shadowBlur = 0;
+
+    /* COLLISION */
+
+    if(
+
+      player.x < obs.x + obs.width &&
+      player.x + player.width > obs.x &&
+      player.y < obs.y + obs.height &&
+      player.y + player.height > obs.y
+
+    ){
+
+      gameOver();
+
+    }
+
+    /* REMOVE */
+
+    if(obs.x + obs.width < 0){
+
+      obstacles.splice(index,1);
+
+      score++;
+
+      document.getElementById("score").innerText = score;
+
+      /* increase speed slightly */
+      if(score % 5 === 0){
+        gameSpeed += 0.5;
+      }
+
+    }
+
+  });
+
+}
+
+/* =========================
+   GAME OVER
+========================= */
+
+function gameOver(){
+
+  gameRunning = false;
+
+  document.getElementById("gameOver").style.display = "block";
+
+}
+
+/* =========================
+   GAME LOOP
+========================= */
+
+function animate(){
+
+  if(!gameRunning) return;
+
+  requestAnimationFrame(animate);
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  drawParticles();
+
+  drawGround();
+
+  drawPlayer();
+
+  updatePlayer();
+
+  drawObstacles();
+
+}
+
+animate();
+
+/* =========================
+   CREATE OBSTACLES
+========================= */
+
+setInterval(()=>{
+
+  if(gameRunning){
+
+    createObstacle();
+
+  }
+
+},1500);
+
+/* =========================
+   JUMP
+========================= */
+
+function jump(){
+
+  if(player.grounded){
+
+    player.velocityY = player.jumpForce;
+
+    player.grounded = false;
+
+  }
+
+}
+
+/* KEYBOARD */
+
+window.addEventListener("keydown",(e)=>{
+
+  if(
+    e.code === "Space" ||
+    e.code === "ArrowUp"
+  ){
+
+    jump();
+
+  }
+
+});
+
+/* MOBILE TOUCH */
+
+window.addEventListener("touchstart",()=>{
+
+  jump();
+
+});
+
+/* RESTART */
+
+document.getElementById("restartBtn")
+.addEventListener("click",()=>{
+
+  location.reload();
+
+});
+
+/* RESIZE */
+
+window.addEventListener("resize",()=>{
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+});
+
+</script>
+
+</body>
+</html>
